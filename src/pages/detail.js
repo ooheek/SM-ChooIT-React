@@ -12,7 +12,7 @@ export default function Detail() {
 
     return (
         <>
-        <Header title='상세보기'/>
+        <Header title='상세보기' extraButton='등록'/>
         {id}
         </>
         )
