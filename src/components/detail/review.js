@@ -1,3 +1,4 @@
+import { useHistory } from "react-router-dom";
 import styled from "styled-components"
 
 const ReviewContainer = styled.div`
@@ -50,8 +51,14 @@ const ReviewDate = styled.div`
     margin-top:20px;
 `;
 
+const ReviewColumnContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+`;
+
 const ReviewInformationContainer = styled.div`
-    margin: 20px;
+    margin: 15px;
+    flex: 1;
     display: flex;
     flex-direction: row;
 `;
@@ -71,7 +78,7 @@ const ReviewContentContainer = styled.div`
 const ReviewTitle = styled.div`
     font-size: 18px;
     font-weight: 500;
-    flex: 1;
+    flex: none;
     overflow: hidden;
     text-overflow:ellipsis;
     white-space: nowrap;
@@ -80,6 +87,7 @@ const ReviewTitle = styled.div`
 const ReviewContent = styled.div`
     font-size: 14px;
     flex: 1;
+    padding: 2px;
     overflow: hidden;
     text-overflow:ellipsis;
     white-space: nowrap;
@@ -89,14 +97,25 @@ const ReviewContent = styled.div`
 
 const ReviewTag = styled.div`
     font-size: 12px;
-    flex: 1;
+    width: calc(100% - 40px);
+    flex: none;
     color: #4e4e4e; 
+    margin-left: 20px;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
 `;
 
-export default function Review({review}) {
+
+export default function Review({ detailId, review }) {
+    let history = useHistory();
+    function navigateReviewDetailPage() {
+        history.push(`/detail/:${detailId}/review/:${review.reviewId}`);
+      }
+
     return (
         <>
-        <ReviewContainer>
+        <ReviewContainer onClick={() => {navigateReviewDetailPage()}} >
             <ReviewInformation>
                 <UserProfileContainer><UserProfile>{review.userImg}</UserProfile></UserProfileContainer>
                 <UserNicknameContainer>
@@ -105,14 +124,17 @@ export default function Review({review}) {
                 </UserNicknameContainer>
                 <ReviewDate>{review.reviewDate}</ReviewDate>
             </ReviewInformation>
-            <ReviewInformationContainer>
+
+            <ReviewColumnContainer>
+                <ReviewInformationContainer>
                 <ReviewThumbnail src={review.reviewImgUrl ? review.reviewImgUrl : '/images/image/no_review_photo.png'} alt=''></ReviewThumbnail>
                 <ReviewContentContainer>
                     <ReviewTitle>{review.reviewTitle}</ReviewTitle>
                     <ReviewContent>{review.reviewContent}</ReviewContent>
-                    <ReviewTag>{review.reviewTag}</ReviewTag>
                 </ReviewContentContainer>
-            </ReviewInformationContainer>
+                </ReviewInformationContainer>
+                <ReviewTag>{review.reviewTag}</ReviewTag>
+            </ReviewColumnContainer>
         </ReviewContainer>
         </>
     )

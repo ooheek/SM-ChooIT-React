@@ -2,15 +2,15 @@
 import React, { useEffect, useRef, useState } from "react";
 
 import { Container, Button, lightColors } from "react-floating-action-button";
+import { useHistory, useParams } from "react-router-dom";
 
-// import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import Header from "../components/commons/header";
 import ProductInfo from "../components/commons/product-info";
 import OptionSlider from "../components/detail/option-slider";
 import ReactionSlider from "../components/detail/reaction-slider";
 import Review from "../components/detail/review";
-import ReviewInfo from "../components/detail/review-info";
+import ReviewInfo from "../components/commons/review-info";
 import SubTitle from "../components/detail/subtitle";
 import Tab from "../components/detail/tab";
 // import { fetchItem } from "../services";
@@ -92,7 +92,13 @@ function throttle(callback, waitTime) {
 };
 
 export default function Detail() {
-    // const { id } = useParams();
+    const { detailId } = useParams();
+
+    let history = useHistory();
+    function navigateReviewWritePage() {
+        history.push(`/detail/:${detailId}/review/write`);
+      }
+
     // useEffect(() => {
     //     fetchItem()
     // }, [])
@@ -142,6 +148,7 @@ export default function Detail() {
 
     // 리뷰 데이터
     const reviewArr = [{
+        reviewId: 1,
         userNickname: '행복한 식빵', 
         userTag: ['#개발자', '#무소음', '#디자인'], 
         userImg: '🍞', 
@@ -151,6 +158,7 @@ export default function Detail() {
         reviewContent: '이렇게 좋은 태블릿은 정말 처음 써봐요. 원래 에어를 살지 프로를 살지 고민이 많았는데 영상편집이나 디자인 전문가가 아니다보니까 에어도 충분할 것 같더라구요.', 
         reviewTag: ['#그림', '#짱예쁨', '#애플은실버', '#넷플릭스']
     }, {
+        reviewId: 2,
         userNickname: '졸린 사과', 
         userTag: ['#예술가', '#가성비'], 
         userImg: '🍎', 
@@ -189,12 +197,12 @@ export default function Detail() {
                     <SubTitle subtitle='리뷰'/>
                     <InformationDivision>
                     {reviewInformationArr.map((information, idx) => {return(<ReviewInfo text={information} key={idx}/>)})}
-                        {reviewArr.map((review, idx) => {return(<Review review={review} key={idx}/>)})}
+                        {reviewArr.map((review, idx) => {return(<Review detailId={detailId} review={review} key={idx}/>)})}
                     </InformationDivision>
                 </ReviewContainer>
             </ProductContent>
         </ProductContainer>
-        <Container><Button rotate={true} onClick={() => console.log('click!')}  styles={{backgroundColor: lightColors.white, position: 'absolute', right: '-30px', bottom: '-65px'}}><FloatingButtonImg alt="" src='/images/icon/review_write_icon.png'/></Button></Container>
+        <Container><Button rotate={true} onClick={() => navigateReviewWritePage()}  styles={{backgroundColor: lightColors.white, position: 'absolute', right: '-30px', bottom: '-65px'}}><FloatingButtonImg alt="" src='/images/icon/review_write_icon.png'/></Button></Container>
         </>
         )
 }
