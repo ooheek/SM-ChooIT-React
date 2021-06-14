@@ -110,27 +110,30 @@ const ReviewTag = styled.div`
 export default function Review({ detailId, review }) {
     let history = useHistory();
     function navigateReviewDetailPage() {
-        history.push(`/detail/:${detailId}/review/:${review.reviewId}`);
+        history.push({
+            pathname:`/detail/:${detailId}/review/:${review.reviewId}`,
+            state: {review: review}
+        });
       }
 
     return (
         <>
         <ReviewContainer onClick={() => {navigateReviewDetailPage()}} >
             <ReviewInformation>
-                <UserProfileContainer><UserProfile>{review.userImg}</UserProfile></UserProfileContainer>
+                <UserProfileContainer><UserProfile>{review.user.userImg}</UserProfile></UserProfileContainer>
                 <UserNicknameContainer>
-                    <UserNickname>{review.userNickname}</UserNickname>
-                    <UserTag>{review.userTag}</UserTag>
+                    <UserNickname>{review.user.userNickname}</UserNickname>
+                    <UserTag>{review.user.userTag}</UserTag>
                 </UserNicknameContainer>
                 <ReviewDate>{review.reviewDate}</ReviewDate>
             </ReviewInformation>
 
             <ReviewColumnContainer>
                 <ReviewInformationContainer>
-                <ReviewThumbnail src={review.reviewImgUrl ? review.reviewImgUrl : '/images/image/no_review_photo.png'} alt=''></ReviewThumbnail>
+                <ReviewThumbnail src={review.reviewThumbnailImgUrl ? review.reviewThumbnailImgUrl : '/images/image/no_review_photo.png'} alt=''></ReviewThumbnail>
                 <ReviewContentContainer>
                     <ReviewTitle>{review.reviewTitle}</ReviewTitle>
-                    <ReviewContent>{review.reviewContent}</ReviewContent>
+                    <ReviewContent>{review.reviewContent[0].text}</ReviewContent>
                 </ReviewContentContainer>
                 </ReviewInformationContainer>
                 <ReviewTag>{review.reviewTag}</ReviewTag>

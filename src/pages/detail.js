@@ -149,24 +149,47 @@ export default function Detail() {
     // 리뷰 데이터
     const reviewArr = [{
         reviewId: 1,
-        userNickname: '행복한 식빵', 
-        userTag: ['#개발자', '#무소음', '#디자인'], 
-        userImg: '🍞', 
-        reviewDate: '2021.06.13', 
+        userId: 1,
+        prodId: detailId,
+        user: {
+            userNickname: '행복한 식빵',
+            userTag: ['#개발자', '#무소음', '#디자인'], 
+            userImg: '🍞',
+        },
+        reviewDate: '2021.06.13',
         reviewTitle: '새로운 눈을 갖게 된 기분!', 
-        reviewImgUrl: '/mock-images/review_image.jpeg', 
-        reviewContent: '이렇게 좋은 태블릿은 정말 처음 써봐요. 원래 에어를 살지 프로를 살지 고민이 많았는데 영상편집이나 디자인 전문가가 아니다보니까 에어도 충분할 것 같더라구요.', 
-        reviewTag: ['#그림', '#짱예쁨', '#애플은실버', '#넷플릭스']
+        reviewThumbnailImgUrl: '/mock-images/review_image.jpeg', 
+        reviewContent: [{
+            type: 'text',
+            text: '이렇게 좋은 태블릿은 정말 처음 써봐요. 원래 에어를 살지 프로를 살지 고민이 많았는데 영상편집이나 디자인 전문가가 아니다보니까 에어도 충분할 것 같더라구요.'
+        }, {
+            type: 'images',
+            images: '' // 이미지 url
+        }], 
+        reviewTag: ['#그림', '#짱예쁨', '#애플은실버', '#넷플릭스'],
     }, {
         reviewId: 2,
-        userNickname: '졸린 사과', 
-        userTag: ['#예술가', '#가성비'], 
-        userImg: '🍎', 
+        userId: 2,
+        prodId: detailId,
+        user: {
+            userNickname: '졸린 사과',
+            userTag: ['#예술가', '#가성비'], 
+            userImg: '🍎',
+        },
         reviewDate: '2021.06.12', 
         reviewTitle: '이런 태블릿,, 처음이야,,', 
-        reviewImgUrl: null, 
-        reviewContent: '이렇게 좋은 태블릿은 정말 처음 써봐요. 원래 에어를 살지 프로를 살지 고민이 많았는데 영상편집이나 디자인 전문가가 아니다보니까 에어도 충분할 것 같더라구요.', 
-        reviewTag: ['#필기감', '#가벼움', '#애플', '#심플', '#세상좋음']
+        reviewThunmbnailImgUrl: null, 
+        reviewContent: [{
+            type: 'text',
+            text: '역시 믿고 쓰는 애플입니다. 어쩜 이렇게 디자인이 심플하고 예쁜지 들고다니면 사람들이 다 쳐다보는 것 같아요. 후후,,, 아주 잠깐 갤럭시 탭을 살까 했는데 필기감에서 아이패드가 훨씬 우수한 것 같아 선택헀습니다!'
+        }, {
+            type: 'images',
+            images: '' // 이미지 url
+        }, {
+            type: 'text',
+            text: '전자기기 잘못 사면 돈만 많이 들고 별로잖아요. 츄잇에서 옵션 제대로 확인하고 영상 시청 위주로 할 거니까 프로 필요 없겠구나 했어요!'
+        },], 
+        reviewTag: ['#필기감', '#가벼움', '#애플', '#심플', '#세상좋음', '#짱짱']
     }]
 
     return (
