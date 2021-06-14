@@ -92,11 +92,11 @@ function throttle(callback, waitTime) {
 };
 
 export default function Detail() {
-    const { detailId } = useParams();
+    const { id } = useParams();
 
     let history = useHistory();
     function navigateReviewWritePage() {
-        history.push(`/detail/:${detailId}/review/write`);
+        history.push(`/detail/:${id}/review/write`);
       }
 
     // useEffect(() => {
@@ -136,11 +136,7 @@ export default function Detail() {
 
     // 감정 분석
     const reactionOptions = [{
-        title: '소음',
         score: 60
-    }, {
-        title: '가성비',
-        score: 20
     }]
 
     // 리뷰 설명
@@ -150,7 +146,7 @@ export default function Detail() {
     const reviewArr = [{
         reviewId: 1,
         userId: 1,
-        prodId: detailId,
+        prodId: id,
         user: {
             userNickname: '행복한 식빵',
             userTag: ['#개발자', '#무소음', '#디자인'], 
@@ -171,7 +167,7 @@ export default function Detail() {
     }, {
         reviewId: 2,
         userId: 2,
-        prodId: detailId,
+        prodId: id,
         user: {
             userNickname: '졸린 사과',
             userTag: ['#예술가', '#가성비'], 
@@ -211,8 +207,8 @@ export default function Detail() {
                         {options.map((option, idx) => {return(<OptionSlider title={option.title} score={option.score} description={option.description} key={idx}/>)})}
                     </InformationDivision>
                     <InformationDivision>
-                    <SubTitle subtitle='이 제품은 이런 반응이 많아요'/>
-                        {reactionOptions.map((option, idx) => {return(<ReactionSlider title={option.title} score={option.score} key={idx} />)})}
+                    <SubTitle subtitle={`이 제품은 ${reactionOptions[0].score}%의 사용자가 만족했어요`}/>
+                        {reactionOptions.map((option, idx) => {return(<ReactionSlider score={option.score} key={idx} />)})}
                     </InformationDivision>
                 </FunctionContainer>
                 <DetailContainer id='p-detail'>
@@ -222,7 +218,7 @@ export default function Detail() {
                     <SubTitle subtitle='리뷰'/>
                     <InformationDivision>
                     {reviewInformationArr.map((information, idx) => {return(<ReviewInfo text={information} key={idx}/>)})}
-                        {reviewArr.map((review, idx) => {return(<Review detailId={detailId} review={review} key={idx}/>)})}
+                        {reviewArr.map((review, idx) => {return(<Review detailId={id} review={review} key={idx}/>)})}
                     </InformationDivision>
                 </ReviewContainer>
             </ProductContent>
