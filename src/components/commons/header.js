@@ -8,8 +8,10 @@ const HeaderContainer = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    position: sticky;
+    position: fixed;
     background-color: #ffffff;
+    color: #4d4d4d;
+    z-index: 10;
 `
 const BackIconButton = styled.button`
     -webkit-appearance: none;
@@ -28,7 +30,11 @@ const BackIconImg = styled.img`
 `
 const TitleWrapper = styled.span`
     font-size: 18px;
-    font-weight: 500;
+    font-weight: 600;
+    width: 190px;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
 `
 const ExtraButtonWrapper = styled.span`
     position: absolute;
@@ -47,13 +53,16 @@ const ExtraButton = styled.button`
     color: ${props => props.change ? '#FF4F00' : '#9F9F9F'};
 `;
 
+
 export default function Header({title, extraButton, onExtraButtonClick, change}) {
     const router = useHistory()
     return (
+        <>
         <HeaderContainer>
-            <BackIconButton onClick={() => router.goBack()}><BackIconImg src='/images/back-icon.png' /></BackIconButton>
+            <BackIconButton onClick={() => router.goBack()}><BackIconImg src='/images/icon/back_icon.png' /></BackIconButton>
              <TitleWrapper>{title}</TitleWrapper>
              {extraButton ? <ExtraButtonWrapper><ExtraButton onClick={onExtraButtonClick} change={change}>{extraButton}</ExtraButton></ExtraButtonWrapper> : null}
         </HeaderContainer>
+        </>
         )
 }
