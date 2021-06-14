@@ -44,10 +44,6 @@ const ProgressValue = styled.div`
     text-align: center;
 `;
 
-const ProgressImg = styled.img`
-    width: 20px;
-`;
-
 export default function ReactionSlider({title, score}) {
     return (
         <>

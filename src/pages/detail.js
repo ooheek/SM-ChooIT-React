@@ -10,7 +10,7 @@ import ProductInfo from "../components/commons/product-info";
 import OptionSlider from "../components/detail/option-slider";
 import ReactionSlider from "../components/detail/reaction-slider";
 import Review from "../components/detail/review";
-import ReviewInfo from "../components/commons/review-info";
+import ReviewInfo from "../components/detail/review-info";
 import SubTitle from "../components/detail/subtitle";
 import Tab from "../components/detail/tab";
 // import { fetchItem } from "../services";
@@ -163,10 +163,11 @@ export default function Detail() {
             type: 'text',
             text: '이렇게 좋은 태블릿은 정말 처음 써봐요. 원래 에어를 살지 프로를 살지 고민이 많았는데 영상편집이나 디자인 전문가가 아니다보니까 에어도 충분할 것 같더라구요.'
         }, {
-            type: 'images',
-            images: '' // 이미지 url
+            type: 'image',
+            image: '/mock-images/review-detail/ipad_review1.jpeg' // 이미지 url
         }], 
         reviewTag: ['#그림', '#짱예쁨', '#애플은실버', '#넷플릭스'],
+        funcStar: [0, 2, 1],
     }, {
         reviewId: 2,
         userId: 2,
@@ -178,18 +179,19 @@ export default function Detail() {
         },
         reviewDate: '2021.06.12', 
         reviewTitle: '이런 태블릿,, 처음이야,,', 
-        reviewThunmbnailImgUrl: null, 
+        reviewThumbnailImgUrl: null, 
         reviewContent: [{
             type: 'text',
-            text: '역시 믿고 쓰는 애플입니다. 어쩜 이렇게 디자인이 심플하고 예쁜지 들고다니면 사람들이 다 쳐다보는 것 같아요. 후후,,, 아주 잠깐 갤럭시 탭을 살까 했는데 필기감에서 아이패드가 훨씬 우수한 것 같아 선택헀습니다!'
+            text: '역시 믿고 쓰는 애플입니다. 어쩜 이렇게 디자인이 심플하고 예쁜지 들고다니면 사람들이 다 쳐다보는 것 같아요. 후후,,,\n\n 아주 잠깐 갤럭시 탭을 살까 했는데 필기감에서 아이패드가 훨씬 우수한 것 같아 선택헀습니다!'
         }, {
-            type: 'images',
-            images: '' // 이미지 url
+            type: 'image',
+            image: '/mock-images/review-detail/ipad_review2.jpg' // 이미지 url
         }, {
             type: 'text',
             text: '전자기기 잘못 사면 돈만 많이 들고 별로잖아요. 츄잇에서 옵션 제대로 확인하고 영상 시청 위주로 할 거니까 프로 필요 없겠구나 했어요!'
         },], 
-        reviewTag: ['#필기감', '#가벼움', '#애플', '#심플', '#세상좋음', '#짱짱']
+        reviewTag: ['#필기감', '#가벼움', '#애플', '#심플', '#세상좋음', '#짱짱'],
+        funcStar: [1, 2, 1],
     }]
 
     return (
