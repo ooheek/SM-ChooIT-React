@@ -81,7 +81,6 @@ const ReviewTagText = styled.span`
 export default function ReviewWrite() {
     const reviewTagArr = ['#디자인', '#심플', '#컬러', '#가벼움', '#조금비쌈', '#케이스추천', '#사랑']
     const [reviewTitleInput, setReviewTitleInput] = useState(false)
-    const [reviewContentInput, setReviewContentInput] = useState(true)
 
     function checkTitleInput(e) {
         if(e.target.value.length > 5) {
@@ -99,7 +98,7 @@ export default function ReviewWrite() {
 
     return (
         <>
-        <Header title='APPLE 2020 맥북에어' extraButton='등록' change= {reviewTitleInput && reviewContentInput ? 'activate' : ''} onExtraButtonClick={reviewTitleInput && reviewContentInput ? () => alert('리뷰가 등록 완료되었습니다!') : null}/>
+        <Header title='APPLE 2020 맥북에어' extraButton='등록' change= {reviewTitleInput ? 'activate' : ''} onExtraButtonClick={reviewTitleInput ? () => alert('리뷰가 등록 완료되었습니다!') : null}/>
         <ProductContainer>
             <ProductInfo />
             <ReviewInputContainer>
