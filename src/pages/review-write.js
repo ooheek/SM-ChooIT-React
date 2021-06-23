@@ -4,6 +4,7 @@ import Header from "../components/commons/header";
 import ProductInfo from "../components/commons/product-info";
 import FuncStarInput from "../components/review-write/func-star-input";
 import ReviewContentWrite from "../components/review-write/review-content-write";
+import ThumbnailUpload from "../components/review-write/thumbnail-upload";
 
 const ProductContainer = styled.div`
     padding-top: 55px;
@@ -56,6 +57,7 @@ const SearchIcon = styled.img`
 const SearchText = styled.input`
     width: 90%;
     padding: 1%;
+    padding-left: 10px;
     border: none;
     :focus {
         outline: none;
@@ -106,7 +108,7 @@ export default function ReviewWrite() {
                 <ReviewWriteInfo>각 기능들에 대해 평점을 선택해주세요</ReviewWriteInfo>
                 <ReviewWriteInfo>👍 : 좋음 ✊ : 보통 👎 : 실망</ReviewWriteInfo>
                 <FuncStarInput />
-                <ReviewWriteInfo>리뷰 대표 썸네일 사진을 선택해주세요</ReviewWriteInfo>
+                <ThumbnailUpload />
                 <ReviewContentWrite />
             </ReviewInputContainer>
             <ReviewTagInputContainer>   

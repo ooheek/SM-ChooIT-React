@@ -65,7 +65,9 @@ export default function Tab() {
 
     useEffect(() => {
         documentRef.current.addEventListener('scroll', throttleScroll);
+        // eslint-disable-next-line
         return () => documentRef.current.removeEventListener('scroll', throttleScroll)
+        // eslint-disable-next-line
     }, [pageY])
 
     // const tabTitle = [

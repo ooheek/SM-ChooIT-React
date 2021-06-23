@@ -1,5 +1,5 @@
-import { useEffect } from "react";
-import { useHistory, useLocation, useParams } from "react-router-dom";
+// import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 
 import Header from "../components/commons/header";
@@ -33,7 +33,7 @@ const ReviewContentImg = styled.img`
 `;
 
 export default function Review() {
-    const { id, reviewId } = useParams();
+    // const { id, reviewId } = useParams();
     const location = useLocation();
     const review = location.state.review;
 

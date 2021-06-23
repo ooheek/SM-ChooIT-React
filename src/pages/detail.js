@@ -118,7 +118,9 @@ export default function Detail() {
 
     useEffect(() => {
         documentRef.current.addEventListener('scroll', throttleScroll);
+        // eslint-disable-next-line
         return () => documentRef.current.removeEventListener('scroll', throttleScroll);
+        // eslint-disable-next-line
     }, [pageY])
 
     const detailImages = ["/mock-images/product-detail-info/image_1.jpg", "/mock-images/product-detail-info/image_2.jpg", "/mock-images/product-detail-info/image_3.jpg", "/mock-images/product-detail-info/image_4.jpg", "/mock-images/product-detail-info/image_5.jpg", "/mock-images/product-detail-info/image_6.jpg", "/mock-images/product-detail-info/image_7.jpg"]
