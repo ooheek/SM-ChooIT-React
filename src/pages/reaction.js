@@ -1,3 +1,5 @@
+import Header from '../components/commons/header'
+
 export default function Reaction() {
-    return <div>제품 감정 분석</div>
+  return <Header title="제품 감정 분석" />
 }
