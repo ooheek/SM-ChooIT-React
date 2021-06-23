@@ -94,7 +94,7 @@ export default function ReviewWrite() {
   const [reviewTitleInput, setReviewTitleInput] = useState(false)
 
   function checkTitleInput(e) {
-    if (e.target.value.length > 5) {
+    if (e.target.value.length > 2) {
       setReviewTitleInput(true)
       console.log(reviewTitleInput)
     }
