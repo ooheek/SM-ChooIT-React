@@ -1,4 +1,5 @@
 // import { useEffect } from "react";
+import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 
@@ -39,6 +40,11 @@ export default function Review() {
 
   const myUserId = 2
 
+  useEffect(() => {
+    // 1. 리뷰 데이터 불러오기
+    // 2. useState에 넣기
+  }, [])
+
   return (
     <>
       <Header
@@ -62,6 +68,10 @@ export default function Review() {
           ) : (
             ''
           )}
+
+          {/* 3. 데이터 이렇게 넣기 */}
+          <div dangerouslySetInnerHTML={{ __html: '<div>안녕</div>' }} />
+
           {review.reviewContent &&
             review.reviewContent.map((content, idx) => {
               return content.type === 'text' ? (

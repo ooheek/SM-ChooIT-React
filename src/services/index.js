@@ -1,5 +1,7 @@
 import fetch from 'isomorphic-fetch'
 
+import { API_URL, TEMP_TOKEN } from '../common/constant'
+
 export async function fetchItem({ id }) {
   const response = await fetch(`/api/${id}`)
   const result = await response.json()
@@ -20,4 +22,38 @@ export async function Sign({ email, name }) {
   } else {
     return null
   }
+}
+
+export async function Upload(file) {
+  var formdata = new FormData()
+  formdata.append('img_path', file, file.name)
+
+  var myHeaders = new Headers()
+  myHeaders.append('Authorization', `JWT ${TEMP_TOKEN}`)
+
+  const response = await fetch(`${API_URL}/image/`, {
+    method: 'POST',
+    headers: myHeaders,
+    body: formdata,
+  })
+
+  const result = await response.json()
+
+  return result
+}
+
+export async function ReviewUpload(body) {
+  var myHeaders = new Headers()
+  myHeaders.append('Authorization', `JWT ${TEMP_TOKEN}`)
+  myHeaders.append('Content-Type', 'application/json; charset=utf-8')
+
+  const response = await fetch(`${API_URL}/review/post/`, {
+    method: 'POST',
+    headers: myHeaders,
+    body: JSON.stringify(body),
+  })
+
+  const result = await response.json()
+
+  return result
 }
