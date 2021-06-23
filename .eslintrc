@@ -1,0 +1,9 @@
+{
+  "extends": [
+    "eslint-config-yceffort"
+  ],
+  "rules": {
+    "react/react-in-jsx-scope": "off",
+    "camelcase": "off"
+  }
+}
