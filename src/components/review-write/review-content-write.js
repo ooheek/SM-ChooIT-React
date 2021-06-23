@@ -10,10 +10,17 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 import React from 'react';
 import styled from "styled-components";
+import MyUploadAdapter from "./imageAdaptor";
 
 const EditorWrapper = styled.div`
     margin: 15px 0;
 `;
+
+function MyCustomUploadAdapterPlugin( editor ) {
+    editor.plugins.get( 'FileRepository' ).createUploadAdapter = ( loader ) => {
+        return new MyUploadAdapter( loader );
+    };
+}
 
 const editorConfiguration = {
     toolbar: {
@@ -24,7 +31,11 @@ const editorConfiguration = {
             'redo',
         ]
     },
+    // plugins: [ImageInsert]
+    extraPlugins: [ MyCustomUploadAdapterPlugin ]
 }
+
+
 
 export default function ReviewContentWrite() {
     return(
