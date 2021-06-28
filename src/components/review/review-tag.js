@@ -17,9 +17,11 @@ export default function ReviewTag({ tags }) {
   return (
     <>
       <ReviewTagContainer>
-        {tags.map((tag, idx) => {
-          return <ReViewTagText key={idx}>{tag}</ReViewTagText>
-        })}
+        {tags && tags.length !== 0
+          ? tags.map((tag, idx) => {
+              return <ReViewTagText key={idx}>{tag}</ReViewTagText>
+            })
+          : ''}
       </ReviewTagContainer>
     </>
   )

@@ -62,11 +62,11 @@ const ReviewTag = styled.div`
   white-space: nowrap;
 `
 
-export default function Review({ detailId, review }) {
+export default function Review({ productId, review }) {
   const history = useHistory()
   function navigateReviewDetailPage() {
     history.push({
-      pathname: `/detail/:${detailId}/review/:${review.reviewId}`,
+      pathname: `/detail/:${productId}/review/:${review.reviewId}`,
       state: { review: review },
     })
   }
@@ -91,11 +91,12 @@ export default function Review({ detailId, review }) {
               alt=""
             ></ReviewThumbnail>
             <ReviewContentContainer>
-              <ReviewTitle>{review.reviewTitle}</ReviewTitle>
-              <ReviewContent>{review.reviewContent[0].text}</ReviewContent>
+              <ReviewTitle>{review.review_title}</ReviewTitle>
+              <ReviewContent>{review.review_text}</ReviewContent>
             </ReviewContentContainer>
           </ReviewInformationContainer>
-          <ReviewTag>{review.reviewTag}</ReviewTag>
+          <ReviewTag>{review.review_tag}</ReviewTag>
+          {/* 리뷰 태그 데이터 추가 */}
         </ReviewColumnContainer>
       </ReviewContainer>
     </>

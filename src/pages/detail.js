@@ -12,6 +12,7 @@ import Review from '../components/detail/review'
 import ReviewInfo from '../components/detail/review-info'
 import SubTitle from '../components/detail/subtitle'
 import Tab from '../components/detail/tab'
+import { GetReview, GetProduct } from '../services'
 // import { fetchItem } from "../services";
 
 const ProductContainer = styled.div`
@@ -78,6 +79,16 @@ const FloatingButtonImg = styled.img`
   width: 23px;
 `
 
+const NoReviewImageContainer = styled.div`
+  margin: 15px 40px;
+  min-height: 250px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`
+
 function throttle(callback, waitTime) {
   let timerId = null
   return (e) => {
@@ -123,15 +134,15 @@ export default function Detail() {
     // eslint-disable-next-line
     }, [pageY])
 
-  const detailImages = [
-    '/mock-images/product-detail-info/image_1.jpg',
-    '/mock-images/product-detail-info/image_2.jpg',
-    '/mock-images/product-detail-info/image_3.jpg',
-    '/mock-images/product-detail-info/image_4.jpg',
-    '/mock-images/product-detail-info/image_5.jpg',
-    '/mock-images/product-detail-info/image_6.jpg',
-    '/mock-images/product-detail-info/image_7.jpg',
-  ]
+  // const detailImages = [
+  //   '/mock-images/product-detail-info/image_1.jpg',
+  //   '/mock-images/product-detail-info/image_2.jpg',
+  //   '/mock-images/product-detail-info/image_3.jpg',
+  //   '/mock-images/product-detail-info/image_4.jpg',
+  //   '/mock-images/product-detail-info/image_5.jpg',
+  //   '/mock-images/product-detail-info/image_6.jpg',
+  //   '/mock-images/product-detail-info/image_7.jpg',
+  // ]
   // const detailImages = []
   // 상세 옵션
   const options = [
@@ -161,71 +172,43 @@ export default function Detail() {
     '️💻 개발자가 선호하는 제품',
   ]
 
-  // 리뷰 데이터
-  const reviewArr = [
-    {
-      reviewId: 1,
-      userId: 1,
-      prodId: id,
-      user: {
-        userNickname: '행복한 식빵',
-        userTag: ['#개발자', '#무소음', '#디자인'],
-        userImg: '🍞',
-      },
-      reviewDate: '2021.06.13',
-      reviewTitle: '새로운 눈을 갖게 된 기분!',
-      reviewThumbnailImgUrl: '/mock-images/review_image.jpeg',
-      reviewContent: [
-        {
-          type: 'text',
-          text: '이렇게 좋은 태블릿은 정말 처음 써봐요. 원래 에어를 살지 프로를 살지 고민이 많았는데 영상편집이나 디자인 전문가가 아니다보니까 에어도 충분할 것 같더라구요.',
-        },
-        {
-          type: 'image',
-          image: '/mock-images/review-detail/ipad_review1.jpeg', // 이미지 url
-        },
-      ],
-      reviewTag: ['#그림', '#짱예쁨', '#애플은실버', '#넷플릭스'],
-      funcStar: [0, 2, 1],
-    },
-    {
-      reviewId: 2,
-      userId: 2,
-      prodId: id,
-      user: {
-        userNickname: '졸린 사과',
-        userTag: ['#예술가', '#가성비'],
-        userImg: '🍎',
-      },
-      reviewDate: '2021.06.12',
-      reviewTitle: '이런 태블릿,, 처음이야,,',
-      reviewThumbnailImgUrl: null,
-      reviewContent: [
-        {
-          type: 'text',
-          text: '역시 믿고 쓰는 애플입니다. 어쩜 이렇게 디자인이 심플하고 예쁜지 들고다니면 사람들이 다 쳐다보는 것 같아요. 후후,,,\n\n 아주 잠깐 갤럭시 탭을 살까 했는데 필기감에서 아이패드가 훨씬 우수한 것 같아 선택헀습니다!',
-        },
-        {
-          type: 'image',
-          image: '/mock-images/review-detail/ipad_review2.jpg', // 이미지 url
-        },
-        {
-          type: 'text',
-          text: '전자기기 잘못 사면 돈만 많이 들고 별로잖아요. 츄잇에서 옵션 제대로 확인하고 영상 시청 위주로 할 거니까 프로 필요 없겠구나 했어요!',
-        },
-      ],
-      reviewTag: ['#필기감', '#가벼움', '#애플', '#심플', '#세상좋음', '#짱짱'],
-      funcStar: [1, 2, 1],
-    },
-  ]
+  // 제품 상세 불러오기
+  const [productData, setProductData] = useState({})
+  async function getProductData(productNum) {
+    const result = await GetProduct(productNum)
+    return result
+  }
+  // 리뷰 목록 불러오기
+  const [reviewData, setReviewData] = useState([])
+
+  async function getReviewData(productNum) {
+    const result = await GetReview(productNum)
+    return result
+  }
+
+  useEffect(() => {
+    // 1. 리뷰 데이터 불러오기
+    // 2. useState에 넣기
+    ;(async () => {
+      const productResult = await getProductData(id)
+      const reviewResult = await getReviewData(id)
+
+      setProductData(productResult)
+      setReviewData(reviewResult.data)
+    })() // 상품 번호 가져오기 // 리뷰 번호 가져오기
+  }, [id])
+  console.log(productData)
+  console.log(reviewData)
+
+  const images = productData.prod_images
 
   return (
     <>
-      <Header title="APPLE 2020 맥북에어" />
+      <Header title={productData.prod_name} />
       <ProductContainer>
         <ProductTabArea>
           <ProductTabContainer className={hide && 'hide'}>
-            <ProductInfo />
+            <ProductInfo product={productData} images={images} />
             <Tab />
           </ProductTabContainer>
         </ProductTabArea>
@@ -254,9 +237,14 @@ export default function Detail() {
             </InformationDivision>
           </FunctionContainer>
           <DetailContainer id="p-detail">
-            {detailImages.length !== 0 ? (
-              detailImages.map((img, idx) => {
-                return <DetailImg src={img} key={idx} />
+            {images && images.length !== 0 ? (
+              images.map((img, idx) => {
+                return (
+                  <DetailImg
+                    src={!img.prod_is_thumbnail ? img.prod_img_path : ''}
+                    key={idx}
+                  />
+                )
               })
             ) : (
               <>
@@ -271,9 +259,23 @@ export default function Detail() {
               {reviewInformationArr.map((information, idx) => {
                 return <ReviewInfo text={information} key={idx} />
               })}
-              {reviewArr.map((review, idx) => {
-                return <Review detailId={id} review={review} key={idx} />
-              })}
+              {reviewData && reviewData.length === 0 ? (
+                <NoReviewImageContainer>
+                  <NoDetailImg src="/images/image/no_item.png" />
+                  <NoDetailImgText>이 제품은 리뷰가 없어요</NoDetailImgText>
+                  <NoDetailImgText>리뷰를 적어주세요!</NoDetailImgText>
+                </NoReviewImageContainer>
+              ) : (
+                reviewData.map((review, idx) => {
+                  return (
+                    <Review
+                      productId={productData.prod_no}
+                      review={review}
+                      key={idx}
+                    />
+                  )
+                })
+              )}
             </InformationDivision>
           </ReviewContainer>
         </ProductContent>

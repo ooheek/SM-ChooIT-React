@@ -1,5 +1,4 @@
 // import { useEffect } from "react";
-import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 
@@ -38,12 +37,7 @@ export default function Review() {
   const location = useLocation()
   const review = location.state.review
 
-  const myUserId = 2
-
-  useEffect(() => {
-    // 1. 리뷰 데이터 불러오기
-    // 2. useState에 넣기
-  }, [])
+  const myUserId = 2 // 서버에서 받아와야 함
 
   return (
     <>

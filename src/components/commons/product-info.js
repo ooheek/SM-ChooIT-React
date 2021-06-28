@@ -31,14 +31,26 @@ const ProductPrice = styled.div`
   padding: 2px;
 `
 
-export default function ProductInfo({ product }) {
+export default function ProductInfo({ product, images }) {
   return (
     <ProductInfoContainer>
       <ProductImgContainer>
-        <ProductImg src="/mock-images/ipad.jpg" alt="" />
+        {images && images.length !== 0 ? (
+          images.map((img, idx) => {
+            return (
+              <ProductImg
+                src={img.prod_is_thumbnail ? img.prod_img_path : ''}
+                alt=""
+                key={idx}
+              />
+            )
+          })
+        ) : (
+          <ProductImg src="/images/image/no_review_photo.png" alt="" />
+        )}
       </ProductImgContainer>
-      <ProductCompany>Apple</ProductCompany>
-      <ProductPrice>가격 1,172,150 원 {product}</ProductPrice>
+      <ProductCompany>{product.prod_manufacturer}</ProductCompany>
+      <ProductPrice>가격 {product.prod_price}</ProductPrice>
     </ProductInfoContainer>
   )
 }
