@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 
@@ -7,7 +7,8 @@ import ProductInfo from '../components/commons/product-info'
 import FuncStarInput from '../components/review-write/func-star-input'
 import ReviewContentWrite from '../components/review-write/review-content-write'
 import ThumbnailUpload from '../components/review-write/thumbnail-upload'
-import { ReviewUpload } from '../services'
+import ReviewTag from '../components/review-write/review-tag'
+import { GetProduct, GetTagData, ReviewUpload } from '../services'
 
 const ProductContainer = styled.div`
   padding-top: 55px;
@@ -34,80 +35,39 @@ const ReviewWriteInfo = styled.div`
   margin-top: 3px;
 `
 
-const ReviewTagInputContainer = styled.div`
-  margin: 10px 20px;
-`
-
-const SearchBar = styled.div`
-  width: calc(100% - 20px);
-  margin: 0 auto;
-  margin-top: 10px;
-  height: 26px;
-  box-shadow: 0px 3px 4px rgba(0, 0, 0, 0.2);
-  display: flex;
-`
-
-const SearchIconWrapper = styled.div`
-  width: 22px;
-  height: 22px;
-`
-
-const SearchIcon = styled.img`
-  width: 20px;
-  height: 20px;
-`
-
-const SearchText = styled.input`
-  width: 90%;
-  padding: 1%;
-  padding-left: 10px;
-  border: none;
-  :focus {
-    outline: none;
-  }
-`
-const ReviewTagContainer = styled.div`
-  margin: 15px;
-  width: calc(100% - 40px);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  white-space: normal;
-`
-
-const ReviewTagText = styled.span`
-  font-size: 14px;
-  width: 42px;
-  font-weight: 600;
-  color: #ff4f00;
-  margin-right: 10px;
-`
-
 export default function ReviewWrite() {
-  const reviewTagArr = [
-    '#디자인',
-    '#심플',
-    '#컬러',
-    '#가벼움',
-    '#조금비쌈',
-    '#케이스추천',
-    '#사랑',
-  ]
   const [reviewTitleInput, setReviewTitleInput] = useState(false)
 
   const { id } = useParams()
   const [review, setReview] = useState({
-    func1_rate: 'g',
-    func2_rate: 'g',
-    func3_rate: 'g',
+    func1_rate: 's',
+    func2_rate: 's',
+    func3_rate: 's',
   })
 
   function checkTitleInput(e) {
     if (e.target.value.length > 2) {
       setReviewTitleInput(true)
-      console.log(reviewTitleInput)
     }
   }
+
+  const [productData, setProductData] = useState({})
+
+  async function getProductData(productNum) {
+    const result = await GetProduct(productNum)
+    return result
+  }
+
+  useEffect(() => {
+    // 1. 리뷰 데이터 불러오기
+    // 2. useState에 넣기
+    ;(async () => {
+      const productResult = await getProductData(1)
+
+      setProductData(productResult)
+    })() // 상품 번호 가져오기 // 리뷰 번호 가져오기
+  }, [])
+  console.log(productData)
 
   // function checkContentInput(e) {
   //     if(e.target.value.length > 5) {
@@ -126,12 +86,12 @@ export default function ReviewWrite() {
           ? [...prev, curr.img_no]
           : prev
       }, [])
-      console.log(reviewImgNo)
     }
 
     const finalReview = {
       ...review,
-      prod_id: id,
+      prod_no: Number(id),
+      review_img_thumbnail: review.images?.thumbnail,
       images: {
         review_img_no: reviewImgNo,
         thumbnail: review.images?.thumbnail,
@@ -145,16 +105,49 @@ export default function ReviewWrite() {
     }
   }
 
+  // 태그 데이터 가져오기
+  const [tagData, setTagData] = useState([])
+
+  async function getTagData(productNum) {
+    const result = await GetTagData(productNum)
+    return result
+  }
+
+  useEffect(() => {
+    // 1. 리뷰 데이터 불러오기
+    // 2. useState에 넣기
+    ;(async () => {
+      const tagResult = await getTagData()
+      const tagData = tagResult.data
+
+      const newTagData = tagData.reduce((prev, curr) => {
+        curr.id = curr.tag_code
+        delete curr.tag_code
+
+        curr.name = curr.tag_text
+        delete curr.tag_text
+
+        console.log(curr)
+        return [...prev, curr]
+      }, [])
+
+      setTagData(newTagData)
+    })()
+  }, [])
+  console.log(tagData)
+
+  const images = productData.prod_images
+
   return (
     <>
       <Header
-        title="APPLE 2020 맥북에어"
+        title={productData.prod_name}
         extraButton="등록"
         change={reviewTitleInput ? 'activate' : ''}
         onExtraButtonClick={reviewTitleInput ? () => onSave() : null}
       />
       <ProductContainer>
-        <ProductInfo />
+        <ProductInfo product={productData} images={images} />
         <ReviewInputContainer>
           <ReviewTitleInput
             placeholder="리뷰 제목을 입력해주세요"
@@ -174,28 +167,7 @@ export default function ReviewWrite() {
           <ThumbnailUpload setReview={setReview} />
           <ReviewContentWrite setReview={setReview} />
         </ReviewInputContainer>
-        <ReviewTagInputContainer>
-          <ReviewWriteInfo style={{ fontWeight: '600' }}>
-            제품과 어울리는 태그를 입력해주세요
-          </ReviewWriteInfo>
-          <ReviewWriteInfo style={{ color: '#9f9f9f', fontSize: '12px' }}>
-            이 제품의 태그로
-          </ReviewWriteInfo>
-          <ReviewWriteInfo style={{ color: '#9f9f9f', fontSize: '12px' }}>
-            #디자인 #애플 #스그 #실버 가 많아요
-          </ReviewWriteInfo>
-          <SearchBar>
-            <SearchText />
-            <SearchIconWrapper>
-              <SearchIcon src="/images/icon/search_icon.png" alt="" />
-            </SearchIconWrapper>
-          </SearchBar>
-          <ReviewTagContainer>
-            {reviewTagArr.map((tag, idx) => {
-              return <ReviewTagText key={idx}>{tag}</ReviewTagText>
-            })}
-          </ReviewTagContainer>
-        </ReviewTagInputContainer>
+        <ReviewTag tagData={tagData} setReview={setReview} />
       </ProductContainer>
     </>
   )

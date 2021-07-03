@@ -2,7 +2,7 @@ import { React, useState } from 'react'
 import styled from 'styled-components'
 import ImageUploading from 'react-images-uploading'
 
-import { Upload } from '../../services'
+import { ReviewPhotoUpload } from '../../services'
 
 const ReviewWriteInfo = styled.div`
   font-size: 14px;
@@ -63,9 +63,10 @@ export default function ThumbnailUpload({ setReview }) {
   async function onChange(imageList, addUpdateIndex) {
     console.log(imageList, addUpdateIndex)
     setImages(imageList)
-    const result = await Upload(imageList[0].file)
+    const result = await ReviewPhotoUpload(imageList[0].file)
     setReview((prev) => ({
       ...prev,
+      review_img_thumbnail: result.data.img_no,
       images: {
         review_img_no: prev.images?.review_img_no,
         thumbnail: result.data.img_no,
