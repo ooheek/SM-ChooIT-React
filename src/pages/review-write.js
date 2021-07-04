@@ -39,6 +39,7 @@ export default function ReviewWrite() {
   const [reviewTitleInput, setReviewTitleInput] = useState(false)
 
   const { id } = useParams()
+  const trueId = id.substr(1, id.length)
   const [review, setReview] = useState({
     func1_rate: 's',
     func2_rate: 's',
@@ -62,11 +63,11 @@ export default function ReviewWrite() {
     // 1. 리뷰 데이터 불러오기
     // 2. useState에 넣기
     ;(async () => {
-      const productResult = await getProductData(1)
+      const productResult = await getProductData(trueId)
 
       setProductData(productResult)
     })() // 상품 번호 가져오기 // 리뷰 번호 가져오기
-  }, [])
+  }, [trueId])
   console.log(productData)
 
   // function checkContentInput(e) {
@@ -76,26 +77,27 @@ export default function ReviewWrite() {
   //     }
   // }
   async function onSave() {
-    const imgList = window.sessionStorage.getItem('_img_no')
-    let reviewImgNo = []
+    // images 리스트 보낼 때
+    // const imgList = window.sessionStorage.getItem('_img_no')
+    // let reviewImgNo = []
 
-    if (imgList) {
-      const imageList = JSON.parse(imgList)
-      reviewImgNo = imageList.reduce((prev, curr) => {
-        return review.review_text.includes(curr.img_path)
-          ? [...prev, curr.img_no]
-          : prev
-      }, [])
-    }
+    // if (imgList) {
+    //   const imageList = JSON.parse(imgList)
+    //   reviewImgNo = imageList.reduce((prev, curr) => {
+    //     return review.review_text.includes(curr.img_path)
+    //       ? [...prev, curr.img_no]
+    //       : prev
+    //   }, [])
+    // }
 
     const finalReview = {
       ...review,
-      prod_no: Number(id),
-      review_img_thumbnail: review.images?.thumbnail,
-      images: {
-        review_img_no: reviewImgNo,
-        thumbnail: review.images?.thumbnail,
-      },
+      prod_no: Number(trueId),
+      // review_img_thumbnail: review.images?.thumbnail,
+      // images: {
+      //   review_img_no: reviewImgNo,
+      //   thumbnail: review.images?.thumbnail,
+      // },
     }
 
     const result = await ReviewUpload(finalReview)

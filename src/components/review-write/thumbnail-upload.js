@@ -67,10 +67,10 @@ export default function ThumbnailUpload({ setReview }) {
     setReview((prev) => ({
       ...prev,
       review_img_thumbnail: result.data.img_no,
-      images: {
-        review_img_no: prev.images?.review_img_no,
-        thumbnail: result.data.img_no,
-      },
+      // images: {
+      //   review_img_no: prev.images?.review_img_no,
+      //   thumbnail: result.data.img_no,
+      // },
     }))
   }
 
