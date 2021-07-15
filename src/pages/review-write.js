@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 
 import Header from '../components/commons/header'
@@ -8,7 +8,12 @@ import FuncStarInput from '../components/review-write/func-star-input'
 import ReviewContentWrite from '../components/review-write/review-content-write'
 import ThumbnailUpload from '../components/review-write/thumbnail-upload'
 import ReviewTag from '../components/review-write/review-tag'
-import { GetProduct, GetTagData, ReviewUpload } from '../services'
+import {
+  GetProduct,
+  GetReviewDetail,
+  GetTagData,
+  ReviewUpload,
+} from '../services'
 
 const ProductContainer = styled.div`
   padding-top: 55px;
@@ -20,6 +25,7 @@ const ReviewInputContainer = styled.div`
 `
 
 const ReviewTitleInput = styled.input`
+  width: 100%;
   font-size: 18px;
   color: #4d4d4d;
   border: none;
@@ -38,13 +44,25 @@ const ReviewWriteInfo = styled.div`
 export default function ReviewWrite() {
   const [reviewTitleInput, setReviewTitleInput] = useState(false)
 
-  const { id } = useParams()
-  const trueId = id.substr(1, id.length)
+  const { id, reviewId } = useParams()
   const [review, setReview] = useState({
     func1_rate: 's',
     func2_rate: 's',
     func3_rate: 's',
+    review_tags: [],
   })
+
+  useEffect(() => {
+    if (reviewId) {
+      // 리뷰조회
+      // setReview()
+      ;(async () => {
+        const reviewDetailResult = await GetReviewDetail(reviewId)
+
+        setReview(reviewDetailResult)
+      })()
+    }
+  }, [reviewId])
 
   function checkTitleInput(e) {
     if (e.target.value.length > 2) {
@@ -53,73 +71,46 @@ export default function ReviewWrite() {
   }
 
   const [productData, setProductData] = useState({})
+  const history = useHistory()
 
-  async function getProductData(productNum) {
-    const result = await GetProduct(productNum)
-    return result
+  function navigateReviewDetailPage(review_no) {
+    history.push({
+      pathname: `/detail/${id}/review/${review_no}`,
+    })
   }
 
   useEffect(() => {
     // 1. 리뷰 데이터 불러오기
     // 2. useState에 넣기
     ;(async () => {
-      const productResult = await getProductData(trueId)
+      const productResult = await GetProduct(id)
 
       setProductData(productResult)
     })() // 상품 번호 가져오기 // 리뷰 번호 가져오기
-  }, [trueId])
+  }, [id])
   console.log(productData)
 
-  // function checkContentInput(e) {
-  //     if(e.target.value.length > 5) {
-  //         setReviewContentInput(true)
-  //         console.log(reviewContentInput)
-  //     }
-  // }
   async function onSave() {
-    // images 리스트 보낼 때
-    // const imgList = window.sessionStorage.getItem('_img_no')
-    // let reviewImgNo = []
-
-    // if (imgList) {
-    //   const imageList = JSON.parse(imgList)
-    //   reviewImgNo = imageList.reduce((prev, curr) => {
-    //     return review.review_text.includes(curr.img_path)
-    //       ? [...prev, curr.img_no]
-    //       : prev
-    //   }, [])
-    // }
-
     const finalReview = {
       ...review,
-      prod_no: Number(trueId),
-      // review_img_thumbnail: review.images?.thumbnail,
-      // images: {
-      //   review_img_no: reviewImgNo,
-      //   thumbnail: review.images?.thumbnail,
-      // },
+      prod_no: Number(id),
     }
 
     const result = await ReviewUpload(finalReview)
 
     if (result) {
       alert('리뷰가 등록되었습니다!')
+      // 리뷰 상세보기 페이지로 이동
+      navigateReviewDetailPage(result.data.review_no)
     }
   }
 
   // 태그 데이터 가져오기
   const [tagData, setTagData] = useState([])
 
-  async function getTagData(productNum) {
-    const result = await GetTagData(productNum)
-    return result
-  }
-
   useEffect(() => {
-    // 1. 리뷰 데이터 불러오기
-    // 2. useState에 넣기
     ;(async () => {
-      const tagResult = await getTagData()
+      const tagResult = await GetTagData()
       const tagData = tagResult.data
 
       const newTagData = tagData.reduce((prev, curr) => {
@@ -160,14 +151,15 @@ export default function ReviewWrite() {
                 review_title: e.target.value,
               }))
             }}
+            value={review.review_title}
           />
           <ReviewWriteInfo>
             각 기능들에 대해 평점을 선택해주세요
           </ReviewWriteInfo>
           <ReviewWriteInfo>👍 : 좋음 ✊ : 보통 👎 : 실망</ReviewWriteInfo>
           <FuncStarInput review={review} setReview={setReview} />
-          <ThumbnailUpload setReview={setReview} />
-          <ReviewContentWrite setReview={setReview} />
+          <ThumbnailUpload setReview={setReview} review={review} />
+          <ReviewContentWrite setReview={setReview} review={review} />
         </ReviewInputContainer>
         <ReviewTag tagData={tagData} setReview={setReview} />
       </ProductContainer>

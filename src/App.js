@@ -2,7 +2,6 @@ import './App.css'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
 import Detail from './pages/detail'
-import Reaction from './pages/reaction'
 import Review from './pages/review'
 import ReviewWrite from './pages/review-write'
 import Sign from './pages/sign'
@@ -14,14 +13,14 @@ function App() {
         <Route exact path="/detail/:id">
           <Detail />
         </Route>
-        <Route exact path="/detail/:id/reaction">
-          <Reaction />
-        </Route>
         <Route exact path="/detail/:id/review/write">
           <ReviewWrite />
         </Route>
         <Route exact path="/detail/:id/review/:reviewId">
           <Review />
+        </Route>
+        <Route exact path="/detail/:id/review/:reviewId/update">
+          <ReviewWrite />
         </Route>
         <Route exact path="/sign">
           <Sign />

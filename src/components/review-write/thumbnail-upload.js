@@ -57,8 +57,12 @@ const ImageArea = styled.div`
   margin: 0 auto;
 `
 
-export default function ThumbnailUpload({ setReview }) {
-  const [images, setImages] = useState()
+export default function ThumbnailUpload({ setReview, review }) {
+  const [images, setImages] = useState(() =>
+    review.thumbnail_detail
+      ? [{ data_url: review.thumbnail_detail.img_path }]
+      : [],
+  )
 
   async function onChange(imageList, addUpdateIndex) {
     console.log(imageList, addUpdateIndex)
