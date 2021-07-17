@@ -1,4 +1,4 @@
-import { Upload } from '../../services'
+import { ReviewPhotoUpload } from '../../services'
 
 export default class MyUploadAdapter {
   constructor(loader) {
@@ -8,7 +8,7 @@ export default class MyUploadAdapter {
 
   async upload() {
     const file = await this.loader.file
-    const result = await Upload(file)
+    const result = await ReviewPhotoUpload(file)
 
     const url = new URL(result.data.img_path)
     const filename = url.pathname

@@ -24,7 +24,7 @@ export async function Sign({ email, name }) {
   }
 }
 
-export async function Upload(file) {
+export async function ReviewPhotoUpload(file) {
   var formdata = new FormData()
   formdata.append('img_path', file, file.name)
 
@@ -53,6 +53,55 @@ export async function ReviewUpload(body) {
     body: JSON.stringify(body),
   })
 
+  const result = await response.json()
+
+  return result
+}
+
+export async function GetReview(prodNum) {
+  const response = await fetch(`${API_URL}/review/?prod_no=${prodNum}`, {
+    method: 'GET',
+  })
+  const result = await response.json()
+
+  return result
+}
+
+export async function GetProduct(prodNum) {
+  var myHeaders = new Headers()
+  myHeaders.append('Authorization', `JWT ${TEMP_TOKEN}`)
+
+  const response = await fetch(`${API_URL}/${prodNum}/`, {
+    method: 'GET',
+    headers: myHeaders,
+  })
+  const result = await response.json()
+
+  return result
+}
+
+export async function GetTagData() {
+  const response = await fetch(`${API_URL}/tag/`)
+  const result = await response.json()
+
+  return result
+}
+
+export async function GetReviewDetail(reviewId) {
+  const response = await fetch(`${API_URL}/review/${reviewId}/`)
+  const result = await response.json()
+
+  return result
+}
+
+export async function DeleteReview(reviewNum) {
+  var myHeaders = new Headers()
+  myHeaders.append('Authorization', `JWT ${TEMP_TOKEN}`)
+
+  const response = await fetch(`${API_URL}/review/${reviewNum}/`, {
+    method: 'DELETE',
+    headers: myHeaders,
+  })
   const result = await response.json()
 
   return result
