@@ -102,12 +102,50 @@ function throttle(callback, waitTime) {
   }
 }
 
+// const detailImages = [
+//   '/mock-images/product-detail-info/image_1.jpg',
+//   '/mock-images/product-detail-info/image_2.jpg',
+//   '/mock-images/product-detail-info/image_3.jpg',
+//   '/mock-images/product-detail-info/image_4.jpg',
+//   '/mock-images/product-detail-info/image_5.jpg',
+//   '/mock-images/product-detail-info/image_6.jpg',
+//   '/mock-images/product-detail-info/image_7.jpg',
+// ]
+// const detailImages = []
+// 상세 옵션
+const options = [
+  {
+    title: '휴대성',
+    score: 5,
+    description: '어깨가 끊어질 수도 있어요! 💪',
+  },
+  {
+    title: '소음',
+    score: 2,
+    description: '옆에서 두들겨도 꿈나라 가능! 😴',
+  },
+]
+
+// 감정 분석
+const reactionOptions = [
+  {
+    score: 60,
+  },
+]
+
+// 리뷰 설명
+const reviewInformationArr = [
+  '🔥 지난 한 달 간 검색 상위 10%',
+  '🔕 무소음 선호하는 제품',
+  '️💻 개발자가 선호하는 제품',
+]
+
 export default function Detail() {
   const { id } = useParams()
 
   const history = useHistory()
   function navigateReviewWritePage() {
-    history.push(`/detail/:${id}/review/write`)
+    history.push(`/detail/${id}/review/write`)
   }
 
   // useEffect(() => {
@@ -115,90 +153,75 @@ export default function Detail() {
   // }, [])
   const [hide, setHide] = useState(false)
   const [pageY, setPageY] = useState(0)
-  const documentRef = useRef(document)
+  const fLocationRef = useRef()
+  const dLocationRef = useRef()
+  const rLocationRef = useRef()
 
+  const [location, setLocation] = useState('fLocation')
+  // 스크롤 감지 헤더 사라지기 + 탭 색상 변경
   function handleScroll() {
     const { pageYOffset } = window
     const deltaY = pageYOffset - pageY
     const hide = pageYOffset !== 0 && deltaY >= 0
     setHide(hide)
     setPageY(pageYOffset)
+
+    // const deltaY = pageYOffset - pageY;
+    if (
+      pageYOffset !== 0 &&
+      pageYOffset >= 0 &&
+      pageYOffset < dLocationRef.current?.offsetTop
+    ) {
+      setLocation('fLocation')
+    } else if (
+      pageYOffset !== 0 &&
+      pageYOffset >= dLocationRef.current?.offsetTop &&
+      pageYOffset < rLocationRef.current?.offsetTop
+    ) {
+      setLocation('dLocation')
+    } else if (
+      pageYOffset !== 0 &&
+      pageYOffset >= rLocationRef.current?.offsetTop
+    ) {
+      setLocation('rLocation')
+    }
+  }
+
+  function moveLocation(clickLocation) {
+    let top = 0
+    if (clickLocation === 'fLocation') {
+      top = fLocationRef.current.offsetTop
+    } else if (clickLocation === 'dLocation') {
+      top = dLocationRef.current.offsetTop
+    } else if (clickLocation === 'rLocation') {
+      top = rLocationRef.current.offsetTop
+    }
+    window.scrollTo({ top: top, behavior: 'smooth' })
   }
 
   const throttleScroll = throttle(handleScroll, 50)
 
   useEffect(() => {
-    documentRef.current.addEventListener('scroll', throttleScroll)
-    // eslint-disable-next-line
-        return () => documentRef.current.removeEventListener('scroll', throttleScroll);
-    // eslint-disable-next-line
-    }, [pageY])
-
-  // const detailImages = [
-  //   '/mock-images/product-detail-info/image_1.jpg',
-  //   '/mock-images/product-detail-info/image_2.jpg',
-  //   '/mock-images/product-detail-info/image_3.jpg',
-  //   '/mock-images/product-detail-info/image_4.jpg',
-  //   '/mock-images/product-detail-info/image_5.jpg',
-  //   '/mock-images/product-detail-info/image_6.jpg',
-  //   '/mock-images/product-detail-info/image_7.jpg',
-  // ]
-  // const detailImages = []
-  // 상세 옵션
-  const options = [
-    {
-      title: '휴대성',
-      score: 5,
-      description: '어깨가 끊어질 수도 있어요! 💪',
-    },
-    {
-      title: '소음',
-      score: 2,
-      description: '옆에서 두들겨도 꿈나라 가능! 😴',
-    },
-  ]
-
-  // 감정 분석
-  const reactionOptions = [
-    {
-      score: 60,
-    },
-  ]
-
-  // 리뷰 설명
-  const reviewInformationArr = [
-    '🔥 지난 한 달 간 검색 상위 10%',
-    '🔕 무소음 선호하는 제품',
-    '️💻 개발자가 선호하는 제품',
-  ]
+    document.addEventListener('scroll', throttleScroll)
+    return () => document.removeEventListener('scroll', throttleScroll)
+  }, [throttleScroll])
 
   // 제품 상세 불러오기
   const [productData, setProductData] = useState({})
-  async function getProductData(productNum) {
-    const result = await GetProduct(productNum)
-    return result
-  }
   // 리뷰 목록 불러오기
   const [reviewData, setReviewData] = useState([])
-
-  async function getReviewData(productNum) {
-    const result = await GetReview(productNum)
-    return result
-  }
 
   useEffect(() => {
     // 1. 리뷰 데이터 불러오기
     // 2. useState에 넣기
     ;(async () => {
-      const productResult = await getProductData(id)
-      const reviewResult = await getReviewData(id)
+      const productResult = await GetProduct(id)
+      const reviewResult = await GetReview(id)
 
       setProductData(productResult)
       setReviewData(reviewResult.data)
     })() // 상품 번호 가져오기 // 리뷰 번호 가져오기
   }, [id])
-  console.log(productData)
-  console.log(reviewData)
 
   const images = productData.prod_images
 
@@ -209,23 +232,21 @@ export default function Detail() {
         <ProductTabArea>
           <ProductTabContainer className={hide && 'hide'}>
             <ProductInfo product={productData} images={images} />
-            <Tab />
+            <Tab location={location} moveLocation={moveLocation} />
           </ProductTabContainer>
         </ProductTabArea>
         <ProductContent>
-          <FunctionContainer id="p-function">
+          <FunctionContainer ref={fLocationRef}>
             <InformationDivision>
               <SubTitle subtitle="제품 상세 옵션" />
-              {options.map((option, idx) => {
-                return (
-                  <OptionSlider
-                    title={option.title}
-                    score={option.score}
-                    description={option.description}
-                    key={idx}
-                  />
-                )
-              })}
+              {options.map((option, idx) => (
+                <OptionSlider
+                  title={option.title}
+                  score={option.score}
+                  description={option.description}
+                  key={idx}
+                />
+              ))}
             </InformationDivision>
             <InformationDivision>
               <SubTitle
@@ -236,7 +257,7 @@ export default function Detail() {
               })}
             </InformationDivision>
           </FunctionContainer>
-          <DetailContainer id="p-detail">
+          <DetailContainer ref={dLocationRef}>
             {images && images.length !== 0 ? (
               images.map((img, idx) => {
                 return (
@@ -253,7 +274,7 @@ export default function Detail() {
               </>
             )}
           </DetailContainer>
-          <ReviewContainer id="p-review">
+          <ReviewContainer ref={rLocationRef}>
             <SubTitle subtitle="리뷰" />
             <InformationDivision>
               {reviewInformationArr.map((information, idx) => {
@@ -266,15 +287,13 @@ export default function Detail() {
                   <NoDetailImgText>리뷰를 적어주세요!</NoDetailImgText>
                 </NoReviewImageContainer>
               ) : (
-                reviewData.map((review, idx) => {
-                  return (
-                    <Review
-                      productId={productData.prod_no}
-                      review={review}
-                      key={idx}
-                    />
-                  )
-                })
+                reviewData.map((review, idx) => (
+                  <Review
+                    productId={productData.prod_no}
+                    review={review}
+                    key={idx}
+                  />
+                ))
               )}
             </InformationDivision>
           </ReviewContainer>
@@ -282,7 +301,7 @@ export default function Detail() {
       </ProductContainer>
       <Container>
         <Button
-          rotate={true}
+          rotate
           onClick={() => navigateReviewWritePage()}
           styles={{
             backgroundColor: lightColors.white,

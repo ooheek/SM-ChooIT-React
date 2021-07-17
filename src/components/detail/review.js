@@ -66,8 +66,7 @@ export default function Review({ productId, review }) {
   const history = useHistory()
   function navigateReviewDetailPage() {
     history.push({
-      pathname: `/detail/:${productId}/review/:${review.reviewId}`,
-      state: { review: review },
+      pathname: `/detail/${productId}/review/${review.review_no}`,
     })
   }
 
@@ -91,7 +90,11 @@ export default function Review({ productId, review }) {
               alt=""
             ></ReviewThumbnail>
             <ReviewContentContainer>
-              <ReviewTitle>{review.review_title}</ReviewTitle>
+              <ReviewTitle>
+                {review.review_title.length > 11
+                  ? review.review_title.slice(0, 12) + '...'
+                  : review.review_title}
+              </ReviewTitle>
               <ReviewContent>{review.review_text}</ReviewContent>
             </ReviewContentContainer>
           </ReviewInformationContainer>

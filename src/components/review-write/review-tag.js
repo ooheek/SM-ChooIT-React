@@ -36,19 +36,23 @@ const ReviewTagText = styled.span`
   margin-right: 10px;
 `
 
-export default function ReviewTag({ tagData, setReview }) {
+export default function ReviewTag({ tagData, setReview, setReviewInput }) {
   const [reviewTagArr, setReviewTagArr] = useState([])
 
   const handleOnSelect = (item) => {
     // the item selected
     console.log(item)
-    setReviewTagArr([...reviewTagArr, `#${item.name}`])
-    setReview((prev) => ({
-      ...prev,
-      review_tags: prev.review_tags
-        ? [...prev.review_tags, item.id]
-        : [item.id],
-    }))
+    const tagName = `#${item.name}`
+    if (!reviewTagArr.includes(tagName)) {
+      setReviewTagArr([...reviewTagArr, tagName])
+      setReview((prev) => ({
+        ...prev,
+        review_tags: prev.review_tags
+          ? [...prev.review_tags, item.id]
+          : [item.id],
+      }))
+      setReviewInput((prev) => ({ ...prev, tag: true }))
+    }
   }
 
   return (
@@ -60,7 +64,7 @@ export default function ReviewTag({ tagData, setReview }) {
         이 제품의 태그로
       </ReviewWriteInfo>
       <ReviewWriteInfo style={{ color: '#9f9f9f', fontSize: '12px' }}>
-        #디자인 #애플 #스그 #실버 가 많아요
+        #디자인 #영상제작 #영상시청 가 많아요
       </ReviewWriteInfo>
       <SearchBar>
         <ReactSearchAutocomplete

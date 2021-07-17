@@ -36,19 +36,19 @@ const UploadButton = styled.button`
   font-size: 30px;
 `
 
-const DeleteButtonWrapper = styled.div`
-  position: relative;
-`
+// const DeleteButtonWrapper = styled.div`
+//   position: relative;
+// `
 
-const DeleteButton = styled.button`
-  border: none;
-  background-color: transparent;
-  color: #4d4d4d;
-  position: absolute;
-  font-size: 12px;
-  bottom: 0;
-  min-width: 40px;
-`
+// const DeleteButton = styled.button`
+//   border: none;
+//   background-color: transparent;
+//   color: #4d4d4d;
+//   position: absolute;
+//   font-size: 12px;
+//   bottom: 0;
+//   min-width: 40px;
+// `
 
 const ImageArea = styled.div`
   max-width: 160px;
@@ -57,8 +57,12 @@ const ImageArea = styled.div`
   margin: 0 auto;
 `
 
-export default function ThumbnailUpload({ setReview }) {
-  const [images, setImages] = useState()
+export default function ThumbnailUpload({ setReview, review, setReviewInput }) {
+  const [images, setImages] = useState(() =>
+    review.thumbnail_detail
+      ? [{ data_url: review.thumbnail_detail.img_path }]
+      : [],
+  )
 
   async function onChange(imageList, addUpdateIndex) {
     console.log(imageList, addUpdateIndex)
@@ -67,11 +71,12 @@ export default function ThumbnailUpload({ setReview }) {
     setReview((prev) => ({
       ...prev,
       review_img_thumbnail: result.data.img_no,
-      images: {
-        review_img_no: prev.images?.review_img_no,
-        thumbnail: result.data.img_no,
-      },
+      // images: {
+      //   review_img_no: prev.images?.review_img_no,
+      //   thumbnail: result.data.img_no,
+      // },
     }))
+    setReviewInput((prev) => ({ ...prev, thumbnail: true }))
   }
 
   return (
@@ -84,7 +89,7 @@ export default function ThumbnailUpload({ setReview }) {
         onChange={onChange}
         dataURLKey="data_url"
       >
-        {({ imageList, onImageUpload, onImageUpdate, onImageRemove }) => (
+        {({ imageList, onImageUpload, onImageUpdate }) => (
           <div className="upload__image-wrapper">
             {imageList.length === 0 ? (
               <ThumbnailArea>
@@ -102,11 +107,12 @@ export default function ThumbnailUpload({ setReview }) {
                           onClick={() => onImageUpdate(idx)}
                         />
                       </ThumbnailArea>
-                      <DeleteButtonWrapper>
+                      {/* 어차피 썸네일 꼭 있어야 함 */}
+                      {/* <DeleteButtonWrapper>
                         <DeleteButton onClick={() => onImageRemove(idx)}>
                           [삭제]
                         </DeleteButton>
-                      </DeleteButtonWrapper>
+                      </DeleteButtonWrapper> */}
                     </ImageArea>
                   </>
                 )

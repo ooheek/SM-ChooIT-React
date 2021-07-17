@@ -23,11 +23,12 @@ const editorConfiguration = {
   extraPlugins: [MyCustomUploadAdapterPlugin],
 }
 
-export default function ReviewContentWrite({ setReview }) {
+export default function ReviewContentWrite({ setReview, review }) {
   return (
     <>
       <EditorWrapper>
         <CKEditor
+          data={review.review_text}
           editor={ClassicEditor}
           type="classic"
           config={editorConfiguration}

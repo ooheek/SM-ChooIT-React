@@ -81,8 +81,26 @@ export async function GetProduct(prodNum) {
 }
 
 export async function GetTagData() {
-  const response = await fetch('http://15.165.169.129/tag/', {
-    method: 'GET',
+  const response = await fetch(`${API_URL}/tag/`)
+  const result = await response.json()
+
+  return result
+}
+
+export async function GetReviewDetail(reviewId) {
+  const response = await fetch(`${API_URL}/review/${reviewId}/`)
+  const result = await response.json()
+
+  return result
+}
+
+export async function DeleteReview(reviewNum) {
+  var myHeaders = new Headers()
+  myHeaders.append('Authorization', `JWT ${TEMP_TOKEN}`)
+
+  const response = await fetch(`${API_URL}/review/${reviewNum}/`, {
+    method: 'DELETE',
+    headers: myHeaders,
   })
   const result = await response.json()
 
