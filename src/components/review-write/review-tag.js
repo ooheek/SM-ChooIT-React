@@ -36,7 +36,7 @@ const ReviewTagText = styled.span`
   margin-right: 10px;
 `
 
-export default function ReviewTag({ tagData, setReview }) {
+export default function ReviewTag({ tagData, setReview, setReviewInput }) {
   const [reviewTagArr, setReviewTagArr] = useState([])
 
   const handleOnSelect = (item) => {
@@ -51,6 +51,7 @@ export default function ReviewTag({ tagData, setReview }) {
           ? [...prev.review_tags, item.id]
           : [item.id],
       }))
+      setReviewInput((prev) => ({ ...prev, tag: true }))
     }
   }
 

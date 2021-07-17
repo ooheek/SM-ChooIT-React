@@ -42,7 +42,11 @@ const ReviewWriteInfo = styled.div`
 `
 
 export default function ReviewWrite() {
-  const [reviewTitleInput, setReviewTitleInput] = useState(false)
+  const [reviewInput, setReviewInput] = useState({
+    title: false,
+    tag: false,
+    thumbnail: false,
+  })
 
   const { id, reviewId } = useParams()
   const [review, setReview] = useState({
@@ -66,7 +70,9 @@ export default function ReviewWrite() {
 
   function checkTitleInput(e) {
     if (e.target.value.length > 2) {
-      setReviewTitleInput(true)
+      setReviewInput({ ...reviewInput, title: true })
+    } else {
+      setReviewInput({ ...reviewInput, title: false })
     }
   }
 
@@ -98,10 +104,12 @@ export default function ReviewWrite() {
 
     const result = await ReviewUpload(finalReview)
 
-    if (result) {
+    if (result.status === 'success') {
       alert('리뷰가 등록되었습니다!')
       // 리뷰 상세보기 페이지로 이동
       navigateReviewDetailPage(result.data.review_no)
+    } else {
+      alert('리뷰 등록에 실패했습니다:(')
     }
   }
 
@@ -136,8 +144,16 @@ export default function ReviewWrite() {
       <Header
         title={productData.prod_name}
         extraButton="등록"
-        change={reviewTitleInput ? 'activate' : ''}
-        onExtraButtonClick={reviewTitleInput ? () => onSave() : null}
+        change={
+          reviewInput.title && reviewInput.tag && reviewInput.thumbnail
+            ? 'activate'
+            : ''
+        }
+        onExtraButtonClick={
+          reviewInput.title && reviewInput.tag && reviewInput.thumbnail
+            ? () => onSave()
+            : null
+        }
       />
       <ProductContainer>
         <ProductInfo product={productData} images={images} />
@@ -158,10 +174,18 @@ export default function ReviewWrite() {
           </ReviewWriteInfo>
           <ReviewWriteInfo>👍 : 좋음 ✊ : 보통 👎 : 실망</ReviewWriteInfo>
           <FuncStarInput review={review} setReview={setReview} />
-          <ThumbnailUpload setReview={setReview} review={review} />
+          <ThumbnailUpload
+            setReview={setReview}
+            review={review}
+            setReviewInput={setReviewInput}
+          />
           <ReviewContentWrite setReview={setReview} review={review} />
         </ReviewInputContainer>
-        <ReviewTag tagData={tagData} setReview={setReview} />
+        <ReviewTag
+          tagData={tagData}
+          setReview={setReview}
+          setReviewInput={setReviewInput}
+        />
       </ProductContainer>
     </>
   )

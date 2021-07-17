@@ -19,9 +19,6 @@ function App() {
         <Route exact path="/detail/:id/review/:reviewId">
           <Review />
         </Route>
-        <Route exact path="/detail/:id/review/:reviewId/update">
-          <ReviewWrite />
-        </Route>
         <Route exact path="/sign">
           <Sign />
         </Route>
