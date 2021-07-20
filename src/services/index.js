@@ -106,3 +106,51 @@ export async function DeleteReview(reviewNum) {
 
   return result
 }
+
+export async function SignInUserInfo(body) {
+  var myHeaders = new Headers()
+  myHeaders.append('Authorization', `JWT ${TEMP_TOKEN}`)
+  myHeaders.append('Content-Type', 'application/json; charset=utf-8')
+
+  const response = await fetch(`${API_URL}/user/signup/`, {
+    method: 'POST',
+    headers: myHeaders,
+    body: JSON.stringify(body),
+  })
+
+  const result = await response.json()
+
+  return result
+}
+
+export async function SignInUserTag(body) {
+  var myHeaders = new Headers()
+  myHeaders.append('Authorization', `JWT ${TEMP_TOKEN}`)
+  myHeaders.append('Content-Type', 'application/json; charset=utf-8')
+
+  const response = await fetch(`${API_URL}/user/signup/tag/`, {
+    method: 'POST',
+    headers: myHeaders,
+    body: JSON.stringify(body),
+  })
+
+  const result = await response.json()
+
+  return result
+}
+
+export async function SignInUserProduct(body) {
+  var myHeaders = new Headers()
+  myHeaders.append('Authorization', `JWT ${TEMP_TOKEN}`)
+  myHeaders.append('Content-Type', 'application/json; charset=utf-8')
+
+  const response = await fetch(`${API_URL}/user/signup/product/`, {
+    method: 'POST',
+    headers: myHeaders,
+    body: JSON.stringify(body),
+  })
+
+  const result = await response.json()
+
+  return result
+}
