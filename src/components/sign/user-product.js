@@ -74,7 +74,7 @@ export default function UserProduct({ userData }) {
       },
     ],
   })
-  console.log(userProduct)
+  console.log(userProduct) // 지금 userProduct는 최종 보내는 거, productRate은 product 리스트만
   const [productRate, setProductRate] = useState([
     {
       name: '노트북112938192832190841290842109',
@@ -110,7 +110,7 @@ export default function UserProduct({ userData }) {
       // ios 메인 페이지로 이동
       console.log(result.status)
     } else {
-      alert('회원가입에 문제가 생겼어요:(')
+      alert('제품 등록에 문제가 생겼어요:(')
     }
   }
   // 제품 검색 api로 제품 검색해서 정보 받아오기 받아와서 바로 setUserProduct 해주기
