@@ -1,5 +1,4 @@
 import { useRef } from 'react'
-import { useEffect } from 'react/cjs/react.development'
 import styled from 'styled-components'
 
 const Select = styled.select`
@@ -17,26 +16,22 @@ const Select = styled.select`
   margin-bottom: 20px;
 `
 
+const max = new Date().getFullYear()
+const min = max - 100
+const yearRange = () => {
+  const year = []
+  for (let i = min; i <= max; i++) {
+    year.push(i)
+  }
+  return year
+}
+
 export default function BirthInput({ setUserInfo }) {
-  const max = new Date().getFullYear()
-  const min = max - 100
   const select = document.getElementById('selectElementId')
 
   const yearRef = useRef(max)
   const selectRef = yearRef.current
   console.log(select, selectRef)
-
-  useEffect(() => {
-    if (select) {
-      for (let i = max; i >= min; i--) {
-        const opt = document.createElement('option')
-        opt.value = i
-        opt.innerHTML = i
-        opt.style.cssText = ''
-        select.appendChild(opt)
-      }
-    }
-  }, [max, min, select])
 
   return (
     <>
@@ -44,9 +39,15 @@ export default function BirthInput({ setUserInfo }) {
         ref={yearRef}
         id="selectElementId"
         onChange={() =>
-          setUserInfo((prev) => ({ ...prev, birth: yearRef.current.value }))
+          setUserInfo((prev) => ({ ...prev, birth: +yearRef.current.value }))
         }
-      ></Select>
+      >
+        {yearRange()
+          .reverse()
+          .map((year) => (
+            <option key={year}>{year}</option>
+          ))}
+      </Select>
     </>
   )
 }

@@ -35,7 +35,7 @@ export default function Sign() {
   return (
     <SignPageWrapper>
       <Title>
-        {status === 1 ? (
+        {status === 3 ? (
           <>
             회원가입
             <br /> 금방 끝나요!
@@ -57,7 +57,7 @@ export default function Sign() {
         )}
       </Title>
       <ContentWrapper>
-        {status === 1 ? (
+        {status === 3 ? (
           <UserInfo setStatus={setStatus} setUserData={setUserData} />
         ) : status === 2 ? (
           <>

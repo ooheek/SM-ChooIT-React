@@ -28,7 +28,7 @@ const TagButton = styled.div`
 export default function UserTag({ setStatus, userData }) {
   const [tagData, setTagData] = useState([])
   const [userTag, setUserTag] = useState({
-    user: userData.email,
+    user: '',
     tag: [],
   })
 
@@ -44,18 +44,17 @@ export default function UserTag({ setStatus, userData }) {
   function onTagClick(tag) {
     if (userTag.tag.includes(tag)) {
       const newTagArr = userTag.tag.filter((element) => element !== tag)
-      setUserTag((prev) => ({
-        ...prev,
+      setUserTag({
+        user: userData.email,
         tag: newTagArr,
-      }))
+      })
     } else {
       setUserTag((prev) => ({
-        ...prev,
+        user: userData.email,
         tag: [...prev.tag, tag],
       }))
     }
   }
-  console.log(userTag)
 
   async function onSubmit() {
     if (userTag.tag.length === 0) {

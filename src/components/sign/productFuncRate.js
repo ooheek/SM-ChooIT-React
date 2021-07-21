@@ -1,9 +1,16 @@
 import styled from 'styled-components'
 
+const FuncStarWrapper = styled.div`
+  display: grid;
+  grid-template-rows: repeat(auto-fill, minmax(30%, auto));
+  row-gap: 5px;
+  margin: 10px;
+`
+
 const FuncStarContainer = styled.div`
   display: flex;
   flex-direction: row;
-  margin: 15px;
+  margin: 5px;
 `
 
 const FuncStarLabel = styled.div`
@@ -20,46 +27,52 @@ const FuncStarScore = styled.div`
   padding-left: 20px;
 `
 
-export default function ProductFuncRate({ review, setReview }) {
+export default function ProductFuncRate({
+  product,
+  productRate,
+  setProductRate,
+}) {
+  function clickFuncRate(id, index, score) {
+    setProductRate((prev) => {
+      const originalScore = prev.find((p) => p.id === id)
+      const restScores = prev.filter((p) => p.id !== id)
+
+      if (originalScore) {
+        originalScore[`func${index}_rate`] = score
+      }
+      console.log(restScores)
+
+      return [originalScore, ...restScores]
+    })
+    console.log(productRate)
+  }
   return (
     <>
-      {[1, 2, 3].map((idx) => {
-        return (
-          <FuncStarContainer key={idx}>
-            <FuncStarLabel>기능 {idx}</FuncStarLabel>
-            <FuncStarScore
-              onClick={() =>
-                setReview((prev) => ({
-                  ...prev,
-                  [`func${idx}_rate`]: 'g',
-                }))
-              }
-            >
-              {review[`func${idx}_rate`] === 'g' ? '👍' : '👍🏻'}
-            </FuncStarScore>
-            <FuncStarScore
-              onClick={() =>
-                setReview((prev) => ({
-                  ...prev,
-                  [`func${idx}_rate`]: 's',
-                }))
-              }
-            >
-              {review[`func${idx}_rate`] === 's' ? '✊' : '✊🏻'}
-            </FuncStarScore>
-            <FuncStarScore
-              onClick={() =>
-                setReview((prev) => ({
-                  ...prev,
-                  [`func${idx}_rate`]: 'b',
-                }))
-              }
-            >
-              {review[`func${idx}_rate`] === 'b' ? '👎' : '👎🏻'}
-            </FuncStarScore>
-          </FuncStarContainer>
-        )
-      })}
+      <FuncStarWrapper>
+        {[1, 2, 3].map((idx) => {
+          return (
+            <FuncStarContainer key={idx}>
+              <FuncStarLabel>기능 {idx}</FuncStarLabel>
+              <FuncStarScore
+                onClick={() => clickFuncRate(product.id, idx, 'g')}
+              >
+                {/* !!!!map 도는 product가 productRate이어야 할 듯 */}
+                {product[`func${idx}_rate`] === 'g' ? '👍' : '👍🏻'}
+              </FuncStarScore>
+              <FuncStarScore
+                onClick={() => clickFuncRate(product.id, idx, 's')}
+              >
+                {product[`func${idx}_rate`] === 's' ? '✊' : '✊🏻'}
+              </FuncStarScore>
+              <FuncStarScore
+                onClick={() => clickFuncRate(product.id, idx, 'b')}
+              >
+                {product[`func${idx}_rate`] === 'b' ? '👎' : '👎🏻'}
+              </FuncStarScore>
+            </FuncStarContainer>
+          )
+        })}
+      </FuncStarWrapper>
     </>
   )
 }

@@ -19,7 +19,7 @@ const ProductWriteInfo = styled.div`
   margin-top: 3px;
 `
 const ProductWrapper = styled.div`
-  min-height: 277px;
+  max-height: 400px;
   margin-bottom: 20px;
   overflow: scroll;
 `
@@ -28,7 +28,6 @@ const ProductDiv = styled.div`
   width: (100% - 2px);
   margin: 15px 0;
   padding-left: 1px;
-  min-height: 110px;
   border-radius: 4px;
   border: 1px solid #e9e9e9;
 `
@@ -36,26 +35,38 @@ const ProductDiv = styled.div`
 const ProductName = styled.div`
   font-size: 16px;
   font-weight: 500;
-  margin: 10px;
-  padding: 10px;
+  color: #4d4d4d;
+  margin: 15px 0 0 15px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 `
 
+const ProductImage = styled.img`
+  width: 100px;
+  height: 100px;
+  margin: 10px;
+  object-fit: cover;
+`
+const ProductInfoWrapper = styled.div`
+  display: flex;
+`
+
 export default function UserProduct({ userData }) {
   const [userProduct, setUserProduct] = useState({
-    email: userData.email,
-    products: [
+    email: '',
+    product: [
       {
-        name: '노트북',
+        name: '노트북112938192832190841290842109',
+        id: 1,
         img: '',
         func1_rate: 's',
         func2_rate: 's',
         func3_rate: 's',
       },
       {
-        name: '노트북',
+        name: '노트북2',
+        id: 2,
         img: '',
         func1_rate: 's',
         func2_rate: 's',
@@ -63,6 +74,26 @@ export default function UserProduct({ userData }) {
       },
     ],
   })
+  console.log(userProduct)
+  const [productRate, setProductRate] = useState([
+    {
+      name: '노트북112938192832190841290842109',
+      id: 1,
+      img: '',
+      func1_rate: 's',
+      func2_rate: 's',
+      func3_rate: 's',
+    },
+    {
+      name: '노트북2',
+      id: 2,
+      img: '',
+      func1_rate: 's',
+      func2_rate: 's',
+      func3_rate: 's',
+    },
+  ])
+
   const handleOnSelect = (item) => {
     // item으로 제품 검색해서 이름이랑 사진 불러오기
     setUserProduct((prev) => [...prev, item])
@@ -70,7 +101,11 @@ export default function UserProduct({ userData }) {
   }
 
   async function onProductSubmit() {
-    const result = await SignInUserProduct(userProduct)
+    const finalUserProduct = {
+      product: productRate,
+      email: userData.email,
+    }
+    const result = await SignInUserProduct(finalUserProduct)
     if (result.status === 'success') {
       // ios 메인 페이지로 이동
       console.log(result.status)
@@ -78,14 +113,23 @@ export default function UserProduct({ userData }) {
       alert('회원가입에 문제가 생겼어요:(')
     }
   }
+  // 제품 검색 api로 제품 검색해서 정보 받아오기 받아와서 바로 setUserProduct 해주기
   const mockProduct = [
     {
-      name: '노트북',
+      name: '노트북112938192832190841290842109',
+      id: 1,
       img: '',
+      func1_rate: 's',
+      func2_rate: 's',
+      func3_rate: 's',
     },
     {
-      name: '노트북',
+      name: '노트북2',
+      id: 2,
       img: '',
+      func1_rate: 's',
+      func2_rate: 's',
+      func3_rate: 's',
     },
   ]
 
@@ -116,8 +160,26 @@ export default function UserProduct({ userData }) {
       <ProductWrapper>
         {mockProduct.map((product, idx) => (
           <ProductDiv key={idx}>
-            <ProductName>{product.name}</ProductName> {product.img}
-            <ProductFuncRate review={userProduct}></ProductFuncRate>
+            <ProductName>
+              {product.name.length > 18
+                ? product.name.slice(0, 18) + '...'
+                : product.name}
+            </ProductName>
+            <ProductInfoWrapper>
+              <ProductImage
+                src={
+                  product.img.length !== 0
+                    ? product.img
+                    : '/images/image/no_review_photo.png'
+                }
+                alt=""
+              ></ProductImage>
+              <ProductFuncRate
+                product={product}
+                productRate={productRate}
+                setProductRate={setProductRate}
+              ></ProductFuncRate>
+            </ProductInfoWrapper>
           </ProductDiv>
         ))}
       </ProductWrapper>
