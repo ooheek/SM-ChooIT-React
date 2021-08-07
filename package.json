@@ -63,6 +63,5 @@
   "devDependencies": {
     "eslint-config-yceffort": "0.0.5",
     "prettier": "^2.3.1"
-  },
-  "proxy": "http://15.165.169.129"
+  }
 }
