@@ -1,6 +1,6 @@
 import fetch from 'isomorphic-fetch'
 
-import { API_URL, TEMP_TOKEN } from '../common/constant'
+import { TEMP_TOKEN } from '../common/constant'
 
 export async function fetchItem({ id }) {
   const response = await fetch(`/api/${id}`)
@@ -31,7 +31,7 @@ export async function ReviewPhotoUpload(file) {
   var myHeaders = new Headers()
   myHeaders.append('Authorization', `JWT ${TEMP_TOKEN}`)
 
-  const response = await fetch(`${API_URL}/image/`, {
+  const response = await fetch(`/api/image/`, {
     method: 'POST',
     headers: myHeaders,
     body: formdata,
@@ -47,7 +47,7 @@ export async function ReviewUpload(body) {
   myHeaders.append('Authorization', `JWT ${TEMP_TOKEN}`)
   myHeaders.append('Content-Type', 'application/json; charset=utf-8')
 
-  const response = await fetch(`${API_URL}/review/post/`, {
+  const response = await fetch(`/api/review/post/`, {
     method: 'POST',
     headers: myHeaders,
     body: JSON.stringify(body),
@@ -59,7 +59,7 @@ export async function ReviewUpload(body) {
 }
 
 export async function GetReview(prodNum) {
-  const response = await fetch(`${API_URL}/review/?prod_no=${prodNum}`, {
+  const response = await fetch(`/api/review/?prod_no=${prodNum}`, {
     method: 'GET',
   })
   const result = await response.json()
@@ -71,7 +71,7 @@ export async function GetProduct(prodNum) {
   var myHeaders = new Headers()
   myHeaders.append('Authorization', `JWT ${TEMP_TOKEN}`)
 
-  const response = await fetch(`${API_URL}/${prodNum}/`, {
+  const response = await fetch(`/api/${prodNum}/`, {
     method: 'GET',
     headers: myHeaders,
   })
@@ -81,14 +81,14 @@ export async function GetProduct(prodNum) {
 }
 
 export async function GetTagData() {
-  const response = await fetch(`${API_URL}/tag/`)
+  const response = await fetch(`/api/tag/`)
   const result = await response.json()
 
   return result
 }
 
 export async function GetReviewDetail(reviewId) {
-  const response = await fetch(`${API_URL}/review/${reviewId}/`)
+  const response = await fetch(`/api/review/${reviewId}/`)
   const result = await response.json()
 
   return result
@@ -98,7 +98,7 @@ export async function DeleteReview(reviewNum) {
   var myHeaders = new Headers()
   myHeaders.append('Authorization', `JWT ${TEMP_TOKEN}`)
 
-  const response = await fetch(`${API_URL}/review/${reviewNum}/`, {
+  const response = await fetch(`/api/review/${reviewNum}/`, {
     method: 'DELETE',
     headers: myHeaders,
   })
@@ -112,7 +112,7 @@ export async function SignInUserInfo(body) {
   myHeaders.append('Authorization', `JWT ${TEMP_TOKEN}`)
   myHeaders.append('Content-Type', 'application/json; charset=utf-8')
 
-  const response = await fetch(`${API_URL}/user/signup/`, {
+  const response = await fetch(`/api/user/signup/`, {
     method: 'POST',
     headers: myHeaders,
     body: JSON.stringify(body),
@@ -128,7 +128,7 @@ export async function SignInUserTag(body) {
   myHeaders.append('Authorization', `JWT ${TEMP_TOKEN}`)
   myHeaders.append('Content-Type', 'application/json; charset=utf-8')
 
-  const response = await fetch(`${API_URL}/user/signup/tag/`, {
+  const response = await fetch(`/api/user/signup/tag/`, {
     method: 'POST',
     headers: myHeaders,
     body: JSON.stringify(body),
@@ -144,7 +144,7 @@ export async function SignInUserProduct(body) {
   myHeaders.append('Authorization', `JWT ${TEMP_TOKEN}`)
   myHeaders.append('Content-Type', 'application/json; charset=utf-8')
 
-  const response = await fetch(`${API_URL}/user/signup/product/`, {
+  const response = await fetch(`/api/user/signup/product/`, {
     method: 'POST',
     headers: myHeaders,
     body: JSON.stringify(body),
