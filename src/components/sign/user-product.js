@@ -184,7 +184,7 @@ export default function UserProduct({ userData }) {
         ))}
       </ProductWrapper>
       <Button text="회원가입 완료" color={'true'} onClick={onProductSubmit} />
-      <Button text="건너뛰기" onClick={onProductSubmit} />
+      <Button text="건너뛰기" onClick={alert('ios)메인화면으로')} />
     </>
   )
 }

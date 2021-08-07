@@ -2,7 +2,7 @@ import { useState } from 'react'
 import styled from 'styled-components'
 
 import UserInfo from '../components/sign/user-info'
-import UserProduct from '../components/sign/user-product'
+// import UserProduct from '../components/sign/user-product'
 import UserTag from '../components/sign/user-tag'
 
 const SignPageWrapper = styled.div`
@@ -40,31 +40,31 @@ export default function Sign() {
             회원가입
             <br /> 금방 끝나요!
           </>
-        ) : status === 2 ? (
+        ) : (
           <>
             츄잇에게
             <br /> 스타일을 알려주세요!
             <SubTitle>최대 4개까지 선택할 수 있어요</SubTitle>
           </>
-        ) : (
-          <>
-            현재 사용하고 있는
-            <br />
-            제품을 기록하고,
-            <br />더 정확한 추천을 받아요!
-            <SubTitle>꼭 입력하지 않아도 괜찮아요</SubTitle>
-          </>
+          // ) : (
+          //   <>
+          //     현재 사용하고 있는
+          //     <br />
+          //     제품을 기록하고,
+          //     <br />더 정확한 추천을 받아요!
+          //     <SubTitle>꼭 입력하지 않아도 괜찮아요</SubTitle>
+          //   </>
         )}
       </Title>
       <ContentWrapper>
         {status === 1 ? (
           <UserInfo setStatus={setStatus} setUserData={setUserData} />
-        ) : status === 2 ? (
-          <>
-            <UserTag setStatus={setStatus} userData={userData} />
-          </>
         ) : (
-          <UserProduct setStatus={setStatus} userData={userData} />
+          <>
+            <UserTag userData={userData} />
+          </>
+          // ) : (
+          //   <UserProduct setStatus={setStatus} userData={userData} />
         )}
       </ContentWrapper>
     </SignPageWrapper>

@@ -112,7 +112,7 @@ export default function UserInfo({ setStatus, setUserData }) {
         setStatus(2)
         setUserData(result.data)
       } else {
-        result.message.email[0].includes('exists')
+        result.message?.email[0].includes('exists')
           ? alert('이미 츄잇에 가입된 이메일이에요!')
           : alert('입력을 다시 한 번 확인해주세요:(')
       }

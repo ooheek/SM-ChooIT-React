@@ -25,7 +25,7 @@ const TagButton = styled.div`
   margin: 10px 0;
 `
 
-export default function UserTag({ setStatus, userData }) {
+export default function UserTag({ userData }) {
   const [tagData, setTagData] = useState([])
   const [userTag, setUserTag] = useState({
     user: '',
@@ -62,8 +62,8 @@ export default function UserTag({ setStatus, userData }) {
     } else {
       const result = await SignInUserTag(userTag)
       if (result.status === 'success') {
-        // 리뷰 상세보기 페이지로 이동
-        setStatus(3)
+        // 어플 메인화면으로 이동
+        alert('회원가입이 완료되었습니다!')
       } else {
         alert('태그 등록에 문제가 생겼어요:(')
       }
