@@ -1,4 +1,4 @@
-export const API_URL = 'http://15.165.169.129'
+export const API_URL = 'https://chewit.site/api'
 
 export const TEMP_TOKEN =
   'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJ1c2VybmFtZSI6InN1dXV1MTAxQGdtYWlsLmNvbSIsImV4cCI6MTYyODkzNzYzMCwiZW1haWwiOiJzdXV1dTEwMUBnbWFpbC5jb20iLCJvcmlnX2lhdCI6MTYyODMzMjgzMH0.t7O--4wW0hfO7qXUSOovBH3m--JRhWS8WoyXHBlIAoM'
