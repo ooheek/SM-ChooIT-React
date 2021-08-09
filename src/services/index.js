@@ -74,6 +74,7 @@ export async function GetProduct(prodNum) {
   const response = await fetch(`${API_URL}/${prodNum}/`, {
     method: 'GET',
     headers: myHeaders,
+    credentials: 'include',
   })
   const result = await response.json()
 
