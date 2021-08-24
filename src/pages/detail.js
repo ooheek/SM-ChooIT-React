@@ -126,13 +126,6 @@ const options = [
   },
 ]
 
-// 감정 분석
-const reactionOptions = [
-  {
-    score: 60,
-  },
-]
-
 // 리뷰 설명
 const reviewInformationArr = [
   '🔥 지난 한 달 간 검색 상위 10%',
@@ -250,11 +243,9 @@ export default function Detail() {
             </InformationDivision>
             <InformationDivision>
               <SubTitle
-                subtitle={`이 제품은 ${reactionOptions[0].score}%의 사용자가 만족했어요`}
+                subtitle={`이 제품은 ${productData.prod_preference}%의 사용자가 만족했어요`}
               />
-              {reactionOptions.map((option, idx) => {
-                return <ReactionSlider score={option.score} key={idx} />
-              })}
+              <ReactionSlider score={productData.prod_preference} />
             </InformationDivision>
           </FunctionContainer>
           <DetailContainer ref={dLocationRef}>
