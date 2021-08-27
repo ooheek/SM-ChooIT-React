@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import styled from 'styled-components'
 
 import { SignInUserInfo } from '../../services'
@@ -57,9 +57,9 @@ const GenderButton = styled.div`
   line-height: 36px;
 `
 
-export default function UserInfo({ setStatus, setUserData }) {
+export default function UserInfo({ setStatus, setUserData, email }) {
   const [userInfo, setUserInfo] = useState({
-    email: '',
+    email: email,
     password: '',
     birth: 2021,
     gender: 'w',
@@ -79,15 +79,15 @@ export default function UserInfo({ setStatus, setUserData }) {
 
   // 앱에서 이메일 정보 받아오기
   // webView.stringByEvaluatingJavaScript(from: "javascript:getEmail(입력한 이메일)")
-  function getEmail(email) {
-    setUserInfo((prev) => ({
-      ...prev,
-      email,
-    }))
-  }
-  useEffect(() => {
-    getEmail('test@naver.com')
-  }, [])
+  // function getEmail(email) {
+  //   setUserInfo((prev) => ({
+  //     ...prev,
+  //     email,
+  //   }))
+  // }
+  // useEffect(() => {
+  //   getEmail('test@naver.com')
+  // }, [])
 
   function emailCheck(email) {
     const validator = require('email-validator')
@@ -223,6 +223,7 @@ export default function UserInfo({ setStatus, setUserData }) {
       </InputWrapper>
       <Button text="회원가입하기" color={'true'} onClick={onSubmit} />
       <Button text="회원가입 안 할래요" onClick={() => window.close()} />
+      {/* window.close() */}
     </>
   )
 }

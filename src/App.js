@@ -19,7 +19,7 @@ function App() {
         <Route exact path="/detail/:id/review/:reviewId">
           <Review />
         </Route>
-        <Route exact path="/sign">
+        <Route exact path="/sign/email=:email">
           <Sign />
         </Route>
       </Switch>

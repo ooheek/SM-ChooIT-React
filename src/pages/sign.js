@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 
 import UserInfo from '../components/sign/user-info'
@@ -30,7 +31,10 @@ const ContentWrapper = styled.div`
 
 export default function Sign() {
   const [status, setStatus] = useState(1)
-  const [userData, setUserData] = useState({}) // 이메일 받아오기
+  const [userData, setUserData] = useState({})
+
+  const { email } = useParams()
+
   console.log(userData)
   return (
     <SignPageWrapper>
@@ -58,7 +62,11 @@ export default function Sign() {
       </Title>
       <ContentWrapper>
         {status === 1 ? (
-          <UserInfo setStatus={setStatus} setUserData={setUserData} />
+          <UserInfo
+            setStatus={setStatus}
+            setUserData={setUserData}
+            email={email}
+          />
         ) : (
           <>
             <UserTag userData={userData} />
