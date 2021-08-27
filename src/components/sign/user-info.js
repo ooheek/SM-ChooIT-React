@@ -222,10 +222,7 @@ export default function UserInfo({ setStatus, setUserData }) {
         <BirthInput setUserInfo={setUserInfo} />
       </InputWrapper>
       <Button text="회원가입하기" color={'true'} onClick={onSubmit} />
-      <Button
-        text="회원가입 안 할래요"
-        onClick={() => alert('window.close()')}
-      />
+      <Button text="회원가입 안 할래요" onClick={() => window.close()} />
     </>
   )
 }

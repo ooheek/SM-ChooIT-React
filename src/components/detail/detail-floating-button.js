@@ -31,11 +31,9 @@ export default function DetailFloatingButton({ favoriteProd }) {
     // !!!제품이 찜 되어 있는지 안 되어 있는지 판별하는 api 추가
     setFavorite(!favorite)
     if (favorite) {
-      const result = await DeleteFavorite({ fav_prod: id })
-      console.log(result.status)
+      await DeleteFavorite({ fav_prod: id })
     } else {
-      const result = await PostFavorite({ fav_prod: id })
-      console.log(result.status)
+      await PostFavorite({ fav_prod: id })
     }
   }
 
@@ -57,7 +55,7 @@ export default function DetailFloatingButton({ favoriteProd }) {
         {/* 1. 리뷰 쓰기 */}
         <Action
           text="리뷰 쓰기"
-          onClick={() => navigateReviewWritePage}
+          onClick={navigateReviewWritePage}
           style={{ backgroundColor: '#ff4f00' }}
         >
           <FloatingButtonImg src="/images/icon/white_review_write.png" />
@@ -68,6 +66,9 @@ export default function DetailFloatingButton({ favoriteProd }) {
             trigger={
               <FloatingButtonImg src="/images/icon/white_favorites.png" />
             }
+            setOpenFloatingButton={setOpenFloatingButton}
+            openFloatingButton={openFloatingButton}
+            id={id}
           ></PreferencePopup>
         </Action>
         {/* 3. 찜하기 */}

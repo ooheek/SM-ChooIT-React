@@ -186,3 +186,19 @@ export async function DeleteFavorite(body) {
 
   return result
 }
+
+export async function PostEstimateRate(id, body) {
+  var myHeaders = new Headers()
+  myHeaders.append('Authorization', `JWT ${TEMP_TOKEN}`)
+  myHeaders.append('Content-Type', 'application/json; charset=utf-8')
+
+  const response = await fetch(`${API_URL}/${id}/`, {
+    method: 'POST',
+    headers: myHeaders,
+    body: JSON.stringify(body),
+  })
+
+  const result = await response.json()
+
+  return result
+}
