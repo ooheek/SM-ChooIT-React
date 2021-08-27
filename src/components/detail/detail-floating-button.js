@@ -7,12 +7,7 @@ import PreferencePopup from './preference-popup'
 import { DeleteFavorite, PostFavorite } from '../../services'
 
 const FloatingButtonImg = styled.img`
-  transform: rotate(0deg);
-  transition: transform 0.2s ease-in-out;
   width: 18px;
-
-  ${({ openFloatingButton }) =>
-    openFloatingButton && `transform: rotate(180deg)`};
 `
 
 export default function DetailFloatingButton({ favoriteProd }) {
@@ -48,9 +43,8 @@ export default function DetailFloatingButton({ favoriteProd }) {
         alwaysShowTitle={true}
         icon={<FloatingButtonImg src="/images/icon/navigate_up_arrow.png" />}
         style={{ right: '-12px', bottom: '-3px', paddingLeft: '3px' }}
-        class={`rtf ${openFloatingButton ? 'open' : 'closed'}`}
+        className={`rtf ${openFloatingButton ? 'open' : 'closed'}`}
         onClick={() => setOpenFloatingButton(!openFloatingButton)}
-        openFloatingButton={openFloatingButton}
       >
         {/* 1. 리뷰 쓰기 */}
         <Action

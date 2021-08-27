@@ -7,7 +7,6 @@ import Header from '../components/commons/header'
 import ProductInfo from '../components/commons/product-info'
 import DetailFloatingButton from '../components/detail/detail-floating-button'
 import OptionSlider from '../components/detail/option-slider'
-// import PreferencePopup from '../components/detail/preference-popup'
 import ReactionSlider from '../components/detail/reaction-slider'
 import Review from '../components/detail/review'
 import ReviewInfo from '../components/detail/review-info'
@@ -209,10 +208,6 @@ export default function Detail() {
   }, [id])
 
   const images = productData.prod_images
-
-  setTimeout(function () {
-    console.log('10초!')
-  }, 10000)
 
   return (
     <>
