@@ -3,14 +3,14 @@ import fetch from 'isomorphic-fetch'
 import { API_URL, TEMP_TOKEN } from '../common/constant'
 
 export async function fetchItem({ id }) {
-  const response = await fetch(`/api/${id}`)
+  const response = await fetch(`/${id}`)
   const result = await response.json()
 
   return result
 }
 
 export async function Sign({ email, name }) {
-  const response = await fetch(`/api/sign`, {
+  const response = await fetch(`/sign`, {
     method: 'POST',
     body: JSON.stringify({
       email,
@@ -151,6 +151,37 @@ export async function SignInUserProduct(body) {
     body: JSON.stringify(body),
   })
 
+  const result = await response.json()
+
+  return result
+}
+
+export async function PostFavorite(body) {
+  var myHeaders = new Headers()
+  myHeaders.append('Authorization', `JWT ${TEMP_TOKEN}`)
+  myHeaders.append('Content-Type', 'application/json; charset=utf-8')
+
+  const response = await fetch(`${API_URL}/favorite/`, {
+    method: 'POST',
+    headers: myHeaders,
+    body: JSON.stringify(body),
+  })
+
+  const result = await response.json()
+
+  return result
+}
+
+export async function DeleteFavorite(body) {
+  var myHeaders = new Headers()
+  myHeaders.append('Authorization', `JWT ${TEMP_TOKEN}`)
+  myHeaders.append('Content-Type', 'application/json; charset=utf-8')
+
+  const response = await fetch(`${API_URL}/favorite/`, {
+    method: 'DELETE',
+    headers: myHeaders,
+    body: JSON.stringify(body),
+  })
   const result = await response.json()
 
   return result

@@ -1,11 +1,11 @@
 // import { useEffect } from "react";
 import React, { useEffect, useRef, useState } from 'react'
-import { Container, Button, lightColors } from 'react-floating-action-button'
-import { useHistory, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 
 import Header from '../components/commons/header'
 import ProductInfo from '../components/commons/product-info'
+import DetailFloatingButton from '../components/detail/detail-floating-button'
 import OptionSlider from '../components/detail/option-slider'
 import ReactionSlider from '../components/detail/reaction-slider'
 import Review from '../components/detail/review'
@@ -75,10 +75,6 @@ const InformationDivision = styled.div`
   margin-bottom: 35px;
 `
 
-const FloatingButtonImg = styled.img`
-  width: 23px;
-`
-
 const NoReviewImageContainer = styled.div`
   margin: 15px 40px;
   min-height: 250px;
@@ -135,11 +131,6 @@ const reviewInformationArr = [
 
 export default function Detail() {
   const { id } = useParams()
-
-  const history = useHistory()
-  function navigateReviewWritePage() {
-    history.push(`/detail/${id}/review/write`)
-  }
 
   // useEffect(() => {
   //     fetchItem()
@@ -290,20 +281,7 @@ export default function Detail() {
           </ReviewContainer>
         </ProductContent>
       </ProductContainer>
-      <Container>
-        <Button
-          rotate
-          onClick={() => navigateReviewWritePage()}
-          styles={{
-            backgroundColor: lightColors.white,
-            position: 'absolute',
-            right: '-30px',
-            bottom: '-65px',
-          }}
-        >
-          <FloatingButtonImg alt="" src="/images/icon/review_write_icon.png" />
-        </Button>
-      </Container>
+      <DetailFloatingButton favoriteProd={productData?.is_favorite_prod} />
     </>
   )
 }
