@@ -120,6 +120,28 @@ export default function UserInfo({ setStatus, setUserData, email }) {
   }
 
   console.log(userInfo)
+
+  const isMobile = {
+    Android: function () {
+      return navigator.userAgent.match(/Android/i) != null
+    },
+    iOS: function () {
+      return navigator.userAgent.match(/iPhone|iPad|iPod/i) != null
+    },
+    any: function () {
+      return isMobile.Android() || isMobile.iOS()
+    },
+  }
+
+  // Back Button 클릭 Bridge 함수
+  function back() {
+    if (isMobile.any()) {
+      if (isMobile.iOS()) {
+        window.webkit.messageHandlers.back.postMessage(true)
+      }
+    }
+  }
+
   return (
     <>
       {/* 이메일 */}
@@ -222,7 +244,7 @@ export default function UserInfo({ setStatus, setUserData, email }) {
         <BirthInput setUserInfo={setUserInfo} />
       </InputWrapper>
       <Button text="회원가입하기" color={'true'} onClick={onSubmit} />
-      <Button text="회원가입 안 할래요" onClick={() => window.close()} />
+      <Button text="회원가입 안 할래요" onClick={() => back()} />
       {/* window.close() */}
     </>
   )

@@ -1,5 +1,6 @@
-import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
+
+import BackButton from './back-button'
 
 const HeaderContainer = styled.div`
   height: 55px;
@@ -13,21 +14,7 @@ const HeaderContainer = styled.div`
   color: #4d4d4d;
   z-index: 10;
 `
-const BackIconButton = styled.button`
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  border: 0;
-  outline: 0;
-  background-color: transparent;
-  position: absolute;
-  left: 10px;
-  padding-top: 3px;
-`
 
-const BackIconImg = styled.img`
-  height: 14px;
-`
 const TitleWrapper = styled.span`
   font-size: 18px;
   font-weight: 600;
@@ -59,13 +46,11 @@ export default function Header({
   onExtraButtonClick,
   change,
 }) {
-  const router = useHistory()
+  // const router = useHistory()
   return (
     <>
       <HeaderContainer>
-        <BackIconButton onClick={() => router.goBack()}>
-          <BackIconImg src="/images/icon/back_icon.png" />
-        </BackIconButton>
+        <BackButton />
         <TitleWrapper>{title}</TitleWrapper>
         {extraButton ? (
           <ExtraButtonWrapper>
