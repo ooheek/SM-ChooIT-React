@@ -154,6 +154,7 @@ export default function ReviewWrite() {
             ? () => onSave()
             : null
         }
+        webBack={true}
       />
       <ProductContainer>
         <ProductInfo product={productData} images={images} />

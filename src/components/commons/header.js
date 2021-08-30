@@ -45,12 +45,13 @@ export default function Header({
   extraButton,
   onExtraButtonClick,
   change,
+  webBack,
 }) {
   // const router = useHistory()
   return (
     <>
       <HeaderContainer>
-        <BackButton />
+        <BackButton webBack={webBack} />
         <TitleWrapper>{title}</TitleWrapper>
         {extraButton ? (
           <ExtraButtonWrapper>

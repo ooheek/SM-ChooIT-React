@@ -96,6 +96,7 @@ export default function Review() {
         extraButton={review.userId === myUserId ? '삭제' : null}
         change={true}
         onExtraButtonClick={() => reviewDelete()}
+        webBack={true}
       />
       <ReviewContainer>
         <ReviewTitle title={review.review_title} />

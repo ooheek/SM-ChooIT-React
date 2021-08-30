@@ -1,3 +1,4 @@
+import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 
 const BackIconButton = styled.button`
@@ -27,7 +28,9 @@ const isMobile = {
   },
 }
 
-export default function BackButton() {
+export default function BackButton({ webBack }) {
+  const history = useHistory()
+
   // Back Button 클릭 Bridge 함수
   function back() {
     if (isMobile.any()) {
@@ -38,7 +41,7 @@ export default function BackButton() {
   }
   return (
     <>
-      <BackIconButton onClick={() => back()}>
+      <BackIconButton onClick={webBack ? () => history.goBack() : () => back()}>
         <BackIconImg src="/images/icon/back_icon.png" />
       </BackIconButton>
     </>
