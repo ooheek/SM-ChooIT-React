@@ -49,10 +49,14 @@ export default function UserTag({ userData }) {
         tag: newTagArr,
       })
     } else {
-      setUserTag((prev) => ({
-        user: userData.email,
-        tag: [...prev.tag, tag],
-      }))
+      if (userTag.tag.length === 5) {
+        alert('태그는 최대 5개까지만 선택 가능합니다:(')
+      } else {
+        setUserTag((prev) => ({
+          user: userData.email,
+          tag: [...prev.tag, tag],
+        }))
+      }
     }
   }
 

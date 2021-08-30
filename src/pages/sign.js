@@ -48,7 +48,7 @@ export default function Sign() {
           <>
             츄잇에게
             <br /> 스타일을 알려주세요!
-            <SubTitle>최대 4개까지 선택할 수 있어요</SubTitle>
+            <SubTitle>최대 5개까지 선택할 수 있어요</SubTitle>
           </>
           // ) : (
           //   <>
@@ -61,7 +61,7 @@ export default function Sign() {
         )}
       </Title>
       <ContentWrapper>
-        {status === 1 ? (
+        {status === 2 ? (
           <UserInfo
             setStatus={setStatus}
             setUserData={setUserData}

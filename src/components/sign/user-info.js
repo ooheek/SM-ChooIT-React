@@ -141,7 +141,7 @@ export default function UserInfo({ setStatus, setUserData, email }) {
       }
     }
   }
-
+  console.log(emailWarning)
   return (
     <>
       {/* 이메일 */}
