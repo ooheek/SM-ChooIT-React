@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useHistory, useParams } from 'react-router-dom'
+import { useHistory, useLocation, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 
 import Header from '../components/commons/header'
@@ -56,6 +56,9 @@ export default function ReviewWrite() {
     review_tags: [],
   })
 
+  const location = useLocation()
+  const token = location.state.token
+
   useEffect(() => {
     if (reviewId) {
       // 리뷰조회
@@ -79,9 +82,9 @@ export default function ReviewWrite() {
   const [productData, setProductData] = useState({})
   const history = useHistory()
 
-  function navigateReviewDetailPage(review_no) {
+  function navigateReviewDetailPage(review_no, token) {
     history.push({
-      pathname: `/detail/${id}/review/${review_no}`,
+      pathname: `/detail/${id}/review/${review_no}/${token}`,
     })
   }
 
@@ -89,11 +92,11 @@ export default function ReviewWrite() {
     // 1. 리뷰 데이터 불러오기
     // 2. useState에 넣기
     ;(async () => {
-      const productResult = await GetProduct(id)
+      const productResult = await GetProduct(id, token)
 
       setProductData(productResult)
     })() // 상품 번호 가져오기 // 리뷰 번호 가져오기
-  }, [id])
+  }, [id, token])
   console.log(productData)
 
   async function onSave() {
@@ -102,12 +105,12 @@ export default function ReviewWrite() {
       prod_no: Number(id),
     }
 
-    const result = await ReviewUpload(finalReview)
+    const result = await ReviewUpload(finalReview, token)
 
     if (result.status === 'success') {
       alert('리뷰가 등록되었습니다!')
       // 리뷰 상세보기 페이지로 이동
-      navigateReviewDetailPage(result.data.review_no)
+      navigateReviewDetailPage(result.data.review_no, token)
     } else {
       alert('리뷰 등록에 실패했습니다:(')
     }
@@ -122,9 +125,6 @@ export default function ReviewWrite() {
       const tagData = tagResult.data
 
       const newTagData = tagData.reduce((prev, curr) => {
-        curr.id = curr.tag_code
-        delete curr.tag_code
-
         curr.name = curr.tag_text
         delete curr.tag_text
 
@@ -174,13 +174,22 @@ export default function ReviewWrite() {
             각 기능들에 대해 평점을 선택해주세요
           </ReviewWriteInfo>
           <ReviewWriteInfo>👍 : 좋음 ✊ : 보통 👎 : 실망</ReviewWriteInfo>
-          <FuncStarInput review={review} setReview={setReview} />
+          <FuncStarInput
+            review={review}
+            setReview={setReview}
+            productCategory={productData?.prod_category}
+          />
           <ThumbnailUpload
             setReview={setReview}
             review={review}
             setReviewInput={setReviewInput}
+            token={token}
           />
-          <ReviewContentWrite setReview={setReview} review={review} />
+          <ReviewContentWrite
+            setReview={setReview}
+            review={review}
+            token={token}
+          />
         </ReviewInputContainer>
         <ReviewTag
           tagData={tagData}

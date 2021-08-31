@@ -66,9 +66,10 @@ export default function PreferencePopup({
   setOpenFloatingButton,
   openFloatingButton,
   id,
+  token,
 }) {
   async function onButtonClick(status) {
-    const result = await PostEstimateRate(id, { estimate_rate: status })
+    const result = await PostEstimateRate(id, { estimate_rate: status }, token)
     if (result.status === 'error') {
       alert('이미 평가한 제품이에요!')
     }

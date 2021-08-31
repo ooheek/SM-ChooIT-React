@@ -10,13 +10,13 @@ function App() {
   return (
     <Router>
       <Switch>
-        <Route exact path="/detail/:id">
+        <Route exact path="/detail/:id/:token?">
           <Detail />
         </Route>
         <Route exact path="/detail/:id/review/write">
           <ReviewWrite />
         </Route>
-        <Route exact path="/detail/:id/review/:reviewId">
+        <Route exact path="/detail/:id/review/:reviewId/:token?">
           <Review />
         </Route>
         <Route exact path="/sign/email=:email">

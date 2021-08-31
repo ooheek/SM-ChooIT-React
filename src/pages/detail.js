@@ -130,14 +130,13 @@ const reviewInformationArr = [
 ]
 
 export default function Detail() {
-  const { id } = useParams()
+  const { id, token } = useParams()
 
   // useEffect(() => {
   //     fetchItem()
   // }, [])
   const [hide, setHide] = useState(false)
   const [pageY, setPageY] = useState(0)
-  const [token, setToken] = useState('')
   const fLocationRef = useRef()
   const dLocationRef = useRef()
   const rLocationRef = useRef()
@@ -199,30 +198,19 @@ export default function Detail() {
   useEffect(() => {
     // 1. 리뷰 데이터 불러오기
     // 2. useState에 넣기
+    console.log(token)
     ;(async () => {
-      const productResult = await GetProduct(id)
+      const productResult = await GetProduct(id, token)
       const reviewResult = await GetReview(id)
 
       setProductData(productResult)
       setReviewData(reviewResult.data)
     })() // 상품 번호 가져오기 // 리뷰 번호 가져오기
-  }, [id])
+  }, [id, token])
 
   const images = productData.prod_images
 
-  function accessToken(data) {
-    alert('Received :', data)
-  }
-
-  useEffect(() => {
-    ;(async () => {
-      const data = await accessToken()
-
-      setToken(data)
-    })() // 상품 번호 가져오기 // 리뷰 번호 가져오기
-  }, [])
-
-  console.log(token)
+  window.localStorage.setItem('token', token)
 
   return (
     <>
@@ -296,7 +284,11 @@ export default function Detail() {
           </ReviewContainer>
         </ProductContent>
       </ProductContainer>
-      <DetailFloatingButton favoriteProd={productData?.is_favorite_prod} />
+      <DetailFloatingButton
+        favoriteProd={productData?.is_favorite_prod}
+        token={token}
+        prodCategory={productData?.prod_category}
+      />
     </>
   )
 }

@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react/cjs/react.development'
 import styled from 'styled-components'
 
 const FuncStarContainer = styled.div`
@@ -20,13 +21,29 @@ const FuncStarScore = styled.div`
   padding-left: 20px;
 `
 
-export default function FuncStarInput({ review, setReview }) {
+export default function FuncStarInput({ review, setReview, productCategory }) {
+  const [funcName, setFuncName] = useState('')
+
+  function checkCategoryFunc(categoryName) {
+    if (categoryName === '노트북') {
+      setFuncName(['성능', '발열', '무게'])
+    } else if (categoryName === '키보드') {
+      setFuncName(['키감', '소음', '가격대비'])
+    } else if (categoryName === '마우스') {
+      setFuncName(['사용감', '소음', '가격대비'])
+    }
+  }
+
+  useEffect(() => {
+    checkCategoryFunc(productCategory)
+  }, [productCategory])
+
   return (
     <>
       {[1, 2, 3].map((idx) => {
         return (
           <FuncStarContainer key={idx}>
-            <FuncStarLabel>기능 {idx}</FuncStarLabel>
+            <FuncStarLabel>{funcName[idx - 1]}</FuncStarLabel>
             <FuncStarScore
               onClick={() =>
                 setReview((prev) => ({

@@ -57,7 +57,12 @@ const ImageArea = styled.div`
   margin: 0 auto;
 `
 
-export default function ThumbnailUpload({ setReview, review, setReviewInput }) {
+export default function ThumbnailUpload({
+  setReview,
+  review,
+  setReviewInput,
+  token,
+}) {
   const [images, setImages] = useState(() =>
     review.thumbnail_detail
       ? [{ data_url: review.thumbnail_detail.img_path }]
@@ -67,7 +72,7 @@ export default function ThumbnailUpload({ setReview, review, setReviewInput }) {
   async function onChange(imageList, addUpdateIndex) {
     console.log(imageList, addUpdateIndex)
     setImages(imageList)
-    const result = await ReviewPhotoUpload(imageList[0].file)
+    const result = await ReviewPhotoUpload(imageList[0].file, token)
     setReview((prev) => ({
       ...prev,
       review_img_thumbnail: result.data.img_no,

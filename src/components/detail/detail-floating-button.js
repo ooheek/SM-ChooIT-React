@@ -10,14 +10,21 @@ const FloatingButtonImg = styled.img`
   width: 18px;
 `
 
-export default function DetailFloatingButton({ favoriteProd }) {
+export default function DetailFloatingButton({
+  favoriteProd,
+  token,
+  prodCategory,
+}) {
   const [openFloatingButton, setOpenFloatingButton] = useState(false)
   const [favorite, setFavorite] = useState()
   const { id } = useParams()
 
   const history = useHistory()
   function navigateReviewWritePage() {
-    history.push(`/detail/${id}/review/write`)
+    history.push({
+      pathname: `/detail/${id}/review/write`,
+      state: { token: token, prodCategory: prodCategory },
+    })
   }
 
   useEffect(() => setFavorite(favoriteProd), [favoriteProd])
@@ -26,9 +33,9 @@ export default function DetailFloatingButton({ favoriteProd }) {
     // !!!제품이 찜 되어 있는지 안 되어 있는지 판별하는 api 추가
     setFavorite(!favorite)
     if (favorite) {
-      await DeleteFavorite({ fav_prod: id })
+      await DeleteFavorite({ fav_prod: id }, token)
     } else {
-      await PostFavorite({ fav_prod: id })
+      await PostFavorite({ fav_prod: id }, token)
     }
   }
 
@@ -63,6 +70,7 @@ export default function DetailFloatingButton({ favoriteProd }) {
             setOpenFloatingButton={setOpenFloatingButton}
             openFloatingButton={openFloatingButton}
             id={id}
+            token={token}
           ></PreferencePopup>
         </Action>
         {/* 3. 찜하기 */}

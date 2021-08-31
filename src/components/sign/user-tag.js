@@ -89,7 +89,7 @@ export default function UserTag({ userData, back }) {
           </TagButton>
         ))}
       </TagWrapper>
-      <Button text="계속하기" color={'true'} onClick={onSubmit} />
+      <Button text="회원가입 완료" color={'true'} onClick={onSubmit} />
     </>
   )
 }

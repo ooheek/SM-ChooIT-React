@@ -26,7 +26,7 @@ export default function FuncStar({ label, score }) {
       <FuncStarContainer>
         <FuncStarLabel>{label}</FuncStarLabel>
         <FuncStarScore>
-          {score === 0 ? '👍' : score === 1 ? '✊' : '👎'}
+          {score === 'g' ? '👍' : score === 's' ? '✊' : '👎'}
         </FuncStarScore>
       </FuncStarContainer>
     </>

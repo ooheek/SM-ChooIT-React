@@ -8,7 +8,10 @@ export default class MyUploadAdapter {
 
   async upload() {
     const file = await this.loader.file
-    const result = await ReviewPhotoUpload(file)
+    const result = await ReviewPhotoUpload(
+      file,
+      window.localStorage.getItem('token'),
+    )
 
     const url = new URL(result.data.img_path)
     const filename = url.pathname

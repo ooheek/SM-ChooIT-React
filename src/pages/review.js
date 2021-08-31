@@ -8,7 +8,7 @@ import ReviewUserInfo from '../components/commons/review-user-info'
 import FuncStar from '../components/review/func-star'
 import ReviewTag from '../components/review/review-tag'
 import ReviewTitle from '../components/review/review-title'
-import { DeleteReview, GetReviewDetail } from '../services'
+import { DeleteReview, GetProduct, GetReviewDetail } from '../services'
 
 const ReviewContainer = styled.div`
   padding-top: 55px;
@@ -45,9 +45,11 @@ const ReviewText = styled.div`
 `
 
 export default function Review() {
-  const { id, reviewId } = useParams()
+  const { id, reviewId, token } = useParams()
 
   const [review, setReview] = useState({})
+  const [funcName, setFuncName] = useState('')
+  const [productCategory, setProductCategory] = useState('')
 
   useEffect(() => {
     ;(async () => {
@@ -72,12 +74,12 @@ export default function Review() {
 
   function navigateAfterDelete() {
     history.push({
-      pathname: `/detail/${id}/`,
+      pathname: `/detail/${id}/${token}`,
     })
   }
 
   async function reviewDelete() {
-    const reviewDeleteResult = await DeleteReview(reviewId)
+    const reviewDeleteResult = await DeleteReview(reviewId, token)
     console.log(reviewDeleteResult)
 
     // !!!!-리뷰 삭제 성공 이후 페이지 이동
@@ -88,6 +90,30 @@ export default function Review() {
       navigateAfterDelete()
     }
   }
+
+  function checkCategoryFunc(categoryName) {
+    if (categoryName === '노트북') {
+      setFuncName(['성능', '발열', '무게'])
+    } else if (categoryName === '키보드') {
+      setFuncName(['키감', '소음', '가격대비'])
+    } else if (categoryName === '마우스') {
+      setFuncName(['사용감', '소음', '가격대비'])
+    }
+  }
+
+  useEffect(() => {
+    // 1. 리뷰 데이터 불러오기
+    // 2. useState에 넣기
+    ;(async () => {
+      const productResult = await GetProduct(id, token)
+
+      setProductCategory(productResult.prod_category)
+    })() // 상품 번호 가져오기 // 리뷰 번호 가져오기
+  }, [id, token])
+
+  useEffect(() => {
+    checkCategoryFunc(productCategory)
+  }, [productCategory])
 
   return (
     <>
@@ -105,7 +131,7 @@ export default function Review() {
         {[review.func1_rate, review.func2_rate, review.func3_rate].map(
           (score, idx) => {
             return (
-              <FuncStar label={`기능 ${idx + 1}`} score={score} key={idx} />
+              <FuncStar label={`${funcName[idx]}`} score={score} key={idx} />
             )
           },
         )}
@@ -117,7 +143,10 @@ export default function Review() {
           )}
 
           {/* 3. 데이터 이렇게 넣기 */}
-          <ReviewText dangerouslySetInnerHTML={{ __html: reviewText }} />
+          <ReviewText
+            dangerouslySetInnerHTML={{ __html: reviewText }}
+            style={{ margin: '0 10px' }}
+          />
         </ReviewContentContainer>
       </ReviewContainer>
     </>

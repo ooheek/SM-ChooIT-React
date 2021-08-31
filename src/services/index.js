@@ -24,12 +24,12 @@ export async function Sign({ email, name }) {
   }
 }
 
-export async function ReviewPhotoUpload(file) {
+export async function ReviewPhotoUpload(file, token) {
   var formdata = new FormData()
   formdata.append('img_path', file, file.name)
 
   var myHeaders = new Headers()
-  myHeaders.append('Authorization', `JWT ${TEMP_TOKEN}`)
+  myHeaders.append('Authorization', `JWT ${token}`)
 
   const response = await fetch(`${API_URL}/image/`, {
     method: 'POST',
@@ -42,9 +42,9 @@ export async function ReviewPhotoUpload(file) {
   return result
 }
 
-export async function ReviewUpload(body) {
+export async function ReviewUpload(body, token) {
   var myHeaders = new Headers()
-  myHeaders.append('Authorization', `JWT ${TEMP_TOKEN}`)
+  myHeaders.append('Authorization', `JWT ${token}`)
   myHeaders.append('Content-Type', 'application/json; charset=utf-8')
 
   const response = await fetch(`${API_URL}/review/post/`, {
@@ -67,9 +67,9 @@ export async function GetReview(prodNum) {
   return result
 }
 
-export async function GetProduct(prodNum) {
+export async function GetProduct(prodNum, token) {
   var myHeaders = new Headers()
-  myHeaders.append('Authorization', `JWT ${TEMP_TOKEN}`)
+  myHeaders.append('Authorization', `JWT ${token}`)
 
   const response = await fetch(`${API_URL}/${prodNum}/`, {
     method: 'GET',
@@ -95,9 +95,9 @@ export async function GetReviewDetail(reviewId) {
   return result
 }
 
-export async function DeleteReview(reviewNum) {
+export async function DeleteReview(reviewNum, token) {
   var myHeaders = new Headers()
-  myHeaders.append('Authorization', `JWT ${TEMP_TOKEN}`)
+  myHeaders.append('Authorization', `JWT ${token}`)
 
   const response = await fetch(`${API_URL}/review/${reviewNum}/`, {
     method: 'DELETE',
@@ -109,13 +109,8 @@ export async function DeleteReview(reviewNum) {
 }
 
 export async function SignInUserInfo(body) {
-  var myHeaders = new Headers()
-  myHeaders.append('Authorization', `JWT ${TEMP_TOKEN}`)
-  myHeaders.append('Content-Type', 'application/json; charset=utf-8')
-
   const response = await fetch(`${API_URL}/user/signup/`, {
     method: 'POST',
-    headers: myHeaders,
     body: JSON.stringify(body),
   })
 
@@ -125,13 +120,8 @@ export async function SignInUserInfo(body) {
 }
 
 export async function SignInUserTag(body) {
-  var myHeaders = new Headers()
-  myHeaders.append('Authorization', `JWT ${TEMP_TOKEN}`)
-  myHeaders.append('Content-Type', 'application/json; charset=utf-8')
-
   const response = await fetch(`${API_URL}/user/signup/tag/`, {
     method: 'POST',
-    headers: myHeaders,
     body: JSON.stringify(body),
   })
 
@@ -156,9 +146,9 @@ export async function SignInUserProduct(body) {
   return result
 }
 
-export async function PostFavorite(body) {
+export async function PostFavorite(body, token) {
   var myHeaders = new Headers()
-  myHeaders.append('Authorization', `JWT ${TEMP_TOKEN}`)
+  myHeaders.append('Authorization', `JWT ${token}`)
   myHeaders.append('Content-Type', 'application/json; charset=utf-8')
 
   const response = await fetch(`${API_URL}/favorite/`, {
@@ -172,9 +162,9 @@ export async function PostFavorite(body) {
   return result
 }
 
-export async function DeleteFavorite(body) {
+export async function DeleteFavorite(body, token) {
   var myHeaders = new Headers()
-  myHeaders.append('Authorization', `JWT ${TEMP_TOKEN}`)
+  myHeaders.append('Authorization', `JWT ${token}`)
   myHeaders.append('Content-Type', 'application/json; charset=utf-8')
 
   const response = await fetch(`${API_URL}/favorite/`, {
@@ -187,9 +177,9 @@ export async function DeleteFavorite(body) {
   return result
 }
 
-export async function PostEstimateRate(id, body) {
+export async function PostEstimateRate(id, body, token) {
   var myHeaders = new Headers()
-  myHeaders.append('Authorization', `JWT ${TEMP_TOKEN}`)
+  myHeaders.append('Authorization', `JWT ${token}`)
   myHeaders.append('Content-Type', 'application/json; charset=utf-8')
 
   const response = await fetch(`${API_URL}/${id}/`, {
