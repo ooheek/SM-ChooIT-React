@@ -36,6 +36,28 @@ export default function Sign() {
   const { email } = useParams()
 
   console.log(userData)
+
+  const isMobile = {
+    Android: function () {
+      return navigator.userAgent.match(/Android/i) != null
+    },
+    iOS: function () {
+      return navigator.userAgent.match(/iPhone|iPad|iPod/i) != null
+    },
+    any: function () {
+      return isMobile.Android() || isMobile.iOS()
+    },
+  }
+
+  // Back Button 클릭 Bridge 함수
+  function back() {
+    if (isMobile.any()) {
+      if (isMobile.iOS()) {
+        window.webkit.messageHandlers.back.postMessage(true)
+      }
+    }
+  }
+
   return (
     <SignPageWrapper>
       <Title>
@@ -61,15 +83,16 @@ export default function Sign() {
         )}
       </Title>
       <ContentWrapper>
-        {status === 2 ? (
+        {status === 1 ? (
           <UserInfo
             setStatus={setStatus}
             setUserData={setUserData}
             email={email}
+            back={back}
           />
         ) : (
           <>
-            <UserTag userData={userData} />
+            <UserTag userData={userData} back={back} />
           </>
           // ) : (
           //   <UserProduct setStatus={setStatus} userData={userData} />

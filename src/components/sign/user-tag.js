@@ -23,9 +23,10 @@ const TagButton = styled.div`
   height: 38px;
   line-height: 36px;
   margin: 10px 0;
+  text-overflow: ellipsis;
 `
 
-export default function UserTag({ userData }) {
+export default function UserTag({ userData, back }) {
   const [tagData, setTagData] = useState([])
   const [userTag, setUserTag] = useState({
     user: '',
@@ -68,6 +69,7 @@ export default function UserTag({ userData }) {
       if (result.status === 'success') {
         // 어플 메인화면으로 이동
         alert('회원가입이 완료되었습니다!')
+        back()
       } else {
         alert('태그 등록에 문제가 생겼어요:(')
       }
@@ -80,8 +82,8 @@ export default function UserTag({ userData }) {
         {tagData.map((tag, idx) => (
           <TagButton
             key={idx}
-            onClick={() => onTagClick(tag.tag_code)}
-            choose={userTag.tag.includes(tag.tag_code)}
+            onClick={() => onTagClick(tag.id)}
+            choose={userTag.tag.includes(tag.id)}
           >
             {tag.tag_text}
           </TagButton>

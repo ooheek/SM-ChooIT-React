@@ -137,6 +137,7 @@ export default function Detail() {
   // }, [])
   const [hide, setHide] = useState(false)
   const [pageY, setPageY] = useState(0)
+  const [token, setToken] = useState('')
   const fLocationRef = useRef()
   const dLocationRef = useRef()
   const rLocationRef = useRef()
@@ -208,6 +209,20 @@ export default function Detail() {
   }, [id])
 
   const images = productData.prod_images
+
+  function accessToken(data) {
+    alert('Received :', data)
+  }
+
+  useEffect(() => {
+    ;(async () => {
+      const data = await accessToken()
+
+      setToken(data)
+    })() // 상품 번호 가져오기 // 리뷰 번호 가져오기
+  }, [])
+
+  console.log(token)
 
   return (
     <>

@@ -57,7 +57,7 @@ const GenderButton = styled.div`
   line-height: 36px;
 `
 
-export default function UserInfo({ setStatus, setUserData, email }) {
+export default function UserInfo({ setStatus, setUserData, email, back }) {
   const [userInfo, setUserInfo] = useState({
     email: email,
     password: '',
@@ -121,27 +121,6 @@ export default function UserInfo({ setStatus, setUserData, email }) {
 
   console.log(userInfo)
 
-  const isMobile = {
-    Android: function () {
-      return navigator.userAgent.match(/Android/i) != null
-    },
-    iOS: function () {
-      return navigator.userAgent.match(/iPhone|iPad|iPod/i) != null
-    },
-    any: function () {
-      return isMobile.Android() || isMobile.iOS()
-    },
-  }
-
-  // Back Button 클릭 Bridge 함수
-  function back() {
-    if (isMobile.any()) {
-      if (isMobile.iOS()) {
-        window.webkit.messageHandlers.back.postMessage(true)
-      }
-    }
-  }
-  console.log(emailWarning)
   return (
     <>
       {/* 이메일 */}
