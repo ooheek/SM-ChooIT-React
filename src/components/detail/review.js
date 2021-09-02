@@ -83,8 +83,8 @@ export default function Review({ productId, review }) {
           <ReviewInformationContainer>
             <ReviewThumbnail
               src={
-                review.reviewThumbnailImgUrl
-                  ? review.reviewThumbnailImgUrl
+                review.thumbnail_detail
+                  ? review.thumbnail_detail.img_path
                   : '/images/image/no_review_photo.png'
               }
               alt=""
