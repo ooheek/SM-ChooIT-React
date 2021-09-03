@@ -58,6 +58,7 @@ export default function ReviewWrite() {
 
   const location = useLocation()
   const token = location.state.token
+  const prodCategory = location.state.prodCategory
 
   useEffect(() => {
     if (reviewId) {
@@ -177,7 +178,7 @@ export default function ReviewWrite() {
           <FuncStarInput
             review={review}
             setReview={setReview}
-            productCategory={productData?.prod_category}
+            productCategory={prodCategory}
           />
           <ThumbnailUpload
             setReview={setReview}
