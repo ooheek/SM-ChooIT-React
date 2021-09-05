@@ -1,5 +1,6 @@
 // import { useEffect } from "react";
 import React, { useEffect, useRef, useState } from 'react'
+import { ScrollMenu } from 'react-horizontal-scrolling-menu'
 import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 
@@ -12,6 +13,7 @@ import Review from '../components/detail/review'
 import ReviewInfo from '../components/detail/review-info'
 import SubTitle from '../components/detail/subtitle'
 import Tab from '../components/detail/tab'
+import WordCloud from '../components/detail/word-cloud'
 import { GetReview, GetProduct } from '../services'
 // import { fetchItem } from "../services";
 
@@ -209,6 +211,7 @@ export default function Detail() {
   }, [id, token])
 
   const images = productData.prod_images
+  const textClouds = productData.prod_text_clouds
 
   window.localStorage.setItem('token', token)
 
@@ -234,6 +237,20 @@ export default function Detail() {
                   key={idx}
                 />
               ))}
+            </InformationDivision>
+            <InformationDivision>
+              <SubTitle subtitle="제품 반응" />
+              {textClouds && textClouds.length !== 0 ? (
+                <ScrollMenu>
+                  {textClouds.map((cloud, idx) => {
+                    return <WordCloud data={cloud} key={idx}></WordCloud>
+                  })}
+                </ScrollMenu>
+              ) : (
+                <NoDetailImgText>
+                  이 제품은 제품 반응이 없어요:(
+                </NoDetailImgText>
+              )}
             </InformationDivision>
             <InformationDivision>
               <SubTitle
