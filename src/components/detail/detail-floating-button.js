@@ -30,7 +30,6 @@ export default function DetailFloatingButton({
   useEffect(() => setFavorite(favoriteProd), [favoriteProd])
 
   async function onFavoriteClick() {
-    // !!!제품이 찜 되어 있는지 안 되어 있는지 판별하는 api 추가
     setFavorite(!favorite)
     if (favorite) {
       await DeleteFavorite({ fav_prod: id }, token)

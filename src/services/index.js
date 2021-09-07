@@ -9,21 +9,6 @@ export async function fetchItem({ id }) {
   return result
 }
 
-export async function Sign({ email, name }) {
-  const response = await fetch(`/sign`, {
-    method: 'POST',
-    body: JSON.stringify({
-      email,
-      name,
-    }),
-  })
-  if (response.ok) {
-    return response.json()
-  } else {
-    return null
-  }
-}
-
 export async function ReviewPhotoUpload(file, token) {
   var formdata = new FormData()
   formdata.append('img_path', file, file.name)
@@ -109,8 +94,12 @@ export async function DeleteReview(reviewNum, token) {
 }
 
 export async function SignInUserInfo(body) {
+  var myHeaders = new Headers()
+  myHeaders.append('Content-Type', 'application/json; charset=utf-8')
+
   const response = await fetch(`${API_URL}/user/signup/`, {
     method: 'POST',
+    headers: myHeaders,
     body: JSON.stringify(body),
   })
 
@@ -120,8 +109,12 @@ export async function SignInUserInfo(body) {
 }
 
 export async function SignInUserTag(body) {
+  var myHeaders = new Headers()
+  myHeaders.append('Content-Type', 'application/json; charset=utf-8')
+
   const response = await fetch(`${API_URL}/user/signup/tag/`, {
     method: 'POST',
+    headers: myHeaders,
     body: JSON.stringify(body),
   })
 
@@ -172,9 +165,7 @@ export async function DeleteFavorite(body, token) {
     headers: myHeaders,
     body: JSON.stringify(body),
   })
-  const result = await response.json()
-
-  return result
+  return response.ok
 }
 
 export async function PostEstimateRate(id, body, token) {

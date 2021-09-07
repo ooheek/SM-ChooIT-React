@@ -45,11 +45,13 @@ const ReviewText = styled.div`
 `
 
 export default function Review() {
-  const { id, reviewId, token } = useParams()
+  const { id, reviewId } = useParams()
 
   const [review, setReview] = useState({})
   const [funcName, setFuncName] = useState('')
   const [productCategory, setProductCategory] = useState('')
+
+  const token = window.localStorage.getItem('token')
 
   useEffect(() => {
     ;(async () => {
