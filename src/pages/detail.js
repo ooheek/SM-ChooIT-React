@@ -7,7 +7,7 @@ import styled from 'styled-components'
 import Header from '../components/commons/header'
 import ProductInfo from '../components/commons/product-info'
 import DetailFloatingButton from '../components/detail/detail-floating-button'
-import OptionSlider from '../components/detail/option-slider'
+import Option from '../components/detail/option'
 import ReactionSlider from '../components/detail/reaction-slider'
 import Review from '../components/detail/review'
 import ReviewInfo from '../components/detail/review-info'
@@ -110,19 +110,6 @@ function throttle(callback, waitTime) {
 //   '/mock-images/product-detail-info/image_7.jpg',
 // ]
 // const detailImages = []
-// 상세 옵션
-const options = [
-  {
-    title: '휴대성',
-    score: 5,
-    description: '어깨가 끊어질 수도 있어요! 💪',
-  },
-  {
-    title: '소음',
-    score: 2,
-    description: '옆에서 두들겨도 꿈나라 가능! 😴',
-  },
-]
 
 // 리뷰 설명
 const reviewInformationArr = [
@@ -212,6 +199,7 @@ export default function Detail() {
 
   const images = productData.prod_images
   const textClouds = productData.prod_text_clouds
+  const tags = productData.prod_tags
 
   window.localStorage.setItem('token', token)
 
@@ -229,14 +217,13 @@ export default function Detail() {
           <FunctionContainer ref={fLocationRef}>
             <InformationDivision>
               <SubTitle subtitle="제품 상세 옵션" />
-              {options.map((option, idx) => (
-                <OptionSlider
-                  title={option.title}
-                  score={option.score}
-                  description={option.description}
-                  key={idx}
-                />
-              ))}
+              {tags && tags.length !== 0 ? (
+                <Option tags={tags} />
+              ) : (
+                <NoDetailImgText style={{ marginLeft: '20px' }}>
+                  이 제품은 상세 옵션이 없어요:(
+                </NoDetailImgText>
+              )}
             </InformationDivision>
             <InformationDivision>
               <SubTitle subtitle="제품 반응" />
@@ -247,7 +234,7 @@ export default function Detail() {
                   })}
                 </ScrollMenu>
               ) : (
-                <NoDetailImgText>
+                <NoDetailImgText style={{ marginLeft: '20px' }}>
                   이 제품은 제품 반응이 없어요:(
                 </NoDetailImgText>
               )}

@@ -74,7 +74,14 @@ export default function OptionSlider({ title, score, description }) {
           }%, #fff ${(score - 1) * 19.6}%, #fff 100%)`,
         }}
       >
-        <Slider type="range" min="1" max="6" steps="1" value={score} />
+        <Slider
+          type="range"
+          min="1"
+          max="6"
+          steps="1"
+          value={score}
+          onClick={() => {}}
+        />
       </OptionSliderRange>
       <Description>{description}</Description>
     </>
